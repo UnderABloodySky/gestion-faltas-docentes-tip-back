@@ -1,0 +1,35 @@
+version: 2.1
+
+executors:
+  kotlin-executor:
+    docker:
+      - image: circleci/openjdk:11-jdk # Use an appropriate JDK version
+
+jobs:
+  build:
+    executor: kotlin-executor
+    steps:
+      - checkout # Checkout the code from your repository
+
+      - run:
+          name: Setup environment
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y lib32stdc++6
+
+      - run:
+          name: Build and Test
+          command: |
+            ./gradlew clean build
+            # Add more testing commands as needed
+
+      - store_artifacts:
+          path: app/build/reports/tests # Adjust the path to your test reports
+          destination: test-reports
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+
