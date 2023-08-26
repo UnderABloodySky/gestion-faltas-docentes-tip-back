@@ -11,12 +11,6 @@ jacoco {
 //	reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
 }
 
-jacocoTestReport {
-	reports {
-		xml.required = true
-	}
-}
-
 sonar {
 	properties {
 		property("sonar.projectKey", "UnderABloodySky_gestion-faltas-docentes-tip-back")
