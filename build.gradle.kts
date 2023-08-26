@@ -6,6 +6,15 @@ plugins {
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
 	kotlin("plugin.jpa") version "1.6.21"
+    id("org.sonarqube") version "4.2.1.3168"
+}
+
+sonar {
+  properties {
+    property("sonar.projectKey", "UnderABloodySky_gestion-faltas-docentes-tip-back")
+    property("sonar.organization", "underabloodysky")
+    property("sonar.host.url", "https://sonarcloud.io")
+  }
 }
 
 group = "ar.edu.unq.tip"

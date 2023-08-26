@@ -3,7 +3,7 @@ version: 2.1
 executors:
   kotlin-executor:
     docker:
-      - image: circleci/openjdk:11-jdk # Use an appropriate JDK version
+      - image:  circleci/openjdk:11-jdk # Use an appropriate JDK version
 
 jobs:
   build:
@@ -23,6 +23,10 @@ jobs:
             ./gradlew clean build
             # Add more testing commands as needed
 
+      - run:
+          name: Analyze on SonarCloud
+          command: ./gradlew build sonarqube
+
       - store_artifacts:
           path: app/build/reports/tests # Adjust the path to your test reports
           destination: test-reports
@@ -31,5 +35,6 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
+      - build:
+          context: SonarCloud
 
