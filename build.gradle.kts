@@ -4,6 +4,13 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.3"
 }
 
+sonar {
+	properties {
+		property("sonar.projectKey", "UnderABloodySky_gestion-faltas-docentes-tip-back")
+		property("sonar.organization", "underabloodysky")
+		property("sonar.host.url", "https://sonarcloud.io")
+	}
+}
 group = "ar.edu.unq.tpi"
 version = "0.0.1-SNAPSHOT"
 
