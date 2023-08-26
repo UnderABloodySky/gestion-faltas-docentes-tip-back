@@ -14,8 +14,8 @@ jobs:
       - run:
           name: Setup environment
           command: |
-            apt-get update
-            apt-get install -y lib32stdc++6
+            sudo apt-get update
+            sudo apt-get install -y lib32stdc++6
 
       - run:
           name: Build and Test
