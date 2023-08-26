@@ -6,6 +6,11 @@ plugins {
 	id("org.sonarqube") version "4.3.0.3225"
 }
 
+jacoco {
+	toolVersion = "0.8.9"
+//	reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
+}
+
 jacocoTestReport {
 	reports {
 		xml.required = true
@@ -19,6 +24,7 @@ sonar {
 		property("sonar.host.url", "https://sonarcloud.io")
 	}
 }
+
 group = "ar.edu.unq.tpi"
 version = "0.0.1-SNAPSHOT"
 
@@ -37,6 +43,14 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+	reports {
+		xml.required.set(true)
+		csv.required.set(false)
+		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+	}
 }
 
 tasks.test {

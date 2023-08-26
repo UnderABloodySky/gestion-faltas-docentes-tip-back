@@ -29,10 +29,13 @@ jobs:
             # Add more testing commands as needed
 
       - run:
+          name: Generate JaCoCo Report
+          command: ./gradlew jacocoTestReport
+
+      - run:
           name: Analyze on SonarCloud
           command: |
             ./gradlew build sonar
-            ./gradlew test jacocoTestReport sonar
 
       - store_artifacts:
           path: app/build/reports/tests # Adjust the path to your test reports
