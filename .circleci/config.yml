@@ -22,11 +22,12 @@ jobs:
           command: |
             ./gradlew clean build
             # Add more testing commands as needed
-     - run:
+
+      - run:
           name: Analyze on SonarCloud
-          command: gradle build sonarqube"
-     
-     - store_artifacts:
+          command: ./gradlew build sonarqube
+
+      - store_artifacts:
           path: app/build/reports/tests # Adjust the path to your test reports
           destination: test-reports
 
@@ -34,6 +35,6 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-            context: SonarCloud
+      - build:
+          context: SonarCloud
 
