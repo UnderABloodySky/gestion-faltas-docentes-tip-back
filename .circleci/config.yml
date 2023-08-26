@@ -35,7 +35,11 @@ jobs:
       - run:
           name: Analyze on SonarCloud
           command: |
-            ./gradlew build sonar
+            ./gradlew sonar
+
+      - run:
+          name: Un paso nuevo
+          command: ./gradlew build jacocoTestReport sonarqube --info
 
       - store_artifacts:
           path: app/build/reports/tests # Adjust the path to your test reports
