@@ -3,7 +3,7 @@ version: 2.1
 executors:
   kotlin-executor:
     docker:
-      - image: cimg/openjdk:17.0 # Use an appropriate JDK version
+      - image: cimg/openjdk:17.0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 # Use an appropriate JDK version
 
 jobs:
   build:
@@ -16,6 +16,11 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install -y lib32stdc++6
+
+      - run:
+          name: Change permissions of gradlew
+          command: |
+            chmod +x ./gradlew
 
       - run:
           name: Build and Test
