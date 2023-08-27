@@ -4,12 +4,6 @@ executors:
   kotlin-executor:
     docker:
       - image: cimg/openjdk:17.0 # Use an appropriate JDK version
-        environment:
-          TEST_DATABASE_URL: postgresql://postgres@localhost/ciriaqui
-      # Service container image
-      - image: cimg/postgres:14.0
-        environment:
-          POSTGRES_USER: postgres
 
 jobs:
   build:
@@ -23,17 +17,6 @@ jobs:
             sudo apt-get update
             sudo apt-get upgrade
             sudo apt-get install -y lib32stdc++6
-
-      - run: sudo apt-get install postgresql-client
-      - run: whoami
-      - run: |
-          psql \
-          -d $TEST_DATABASE_URL \
-          -c "CREATE TABLE test (name char(25));"
-      - run: |
-          psql \
-          -d $TEST_DATABASE_URL \
-          -c "INSERT INTO test VALUES ('John'), ('Joanna'), ('Jennifer');"
 
       - run:
           name: Change permissions of gradlew
