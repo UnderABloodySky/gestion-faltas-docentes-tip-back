@@ -11,21 +11,20 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 class TeacherTest {
-
-    private lateinit var teacher : Teacher
+    private lateinit var aTeacher : Teacher
 
     @BeforeEach
     fun setUp() {
-        teacher = Teacher(name = "Pepito")
+        aTeacher = Teacher(name = "Pepito")
     }
 
     @Test
     fun aTeacherHasAName() {
-        assertEquals("Pepito",teacher.name)
+        assertEquals("Pepito", aTeacher.name)
     }
 
     @Test
     fun aTeacherHasNotAnID() {
-        assertNull(teacher.id)
+        assertNull(aTeacher.id)
     }
 }

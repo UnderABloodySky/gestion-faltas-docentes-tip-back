@@ -3,7 +3,7 @@ package ar.edu.unq.tpi.ciriaqui.model
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "Teacher")
+@Table(name = "TEACHERS")
 data class Teacher(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
