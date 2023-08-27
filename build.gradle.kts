@@ -4,6 +4,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.3"
 	jacoco
 	id("org.sonarqube") version "4.3.0.3225"
+	kotlin("jvm") version "1.9.0"
 }
 
 jacoco {
@@ -33,6 +34,7 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.withType<Test> {
@@ -53,3 +55,4 @@ tasks.test {
 tasks.jacocoTestReport {
 	dependsOn(tasks.test) // tests are required to run before generating the report
 }
+
