@@ -29,12 +29,12 @@ jobs:
 
       - run:
           name: Generate JaCoCo Report
-          command: ./gradlew jacocoTestReport
+          command: ./gradlew jacocoTestReport --info
 
       - run:
           name: Analyze on SonarCloud
           command: |
-            ./gradlew sonar
+            ./gradlew sonar --info
 
       - run:
           name: Un paso nuevo
