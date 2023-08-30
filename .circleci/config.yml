@@ -23,18 +23,6 @@ jobs:
           command: chmod +x ./gradlew
 
       - run:
-          name: Debug
-          command: |
-            ls -la src/test/resources/
-            cat src/test/resources/application-test.properties
-            chmod 644 src/test/resources/application-test.properties
-            echo "Before sourcing:"
-            env
-            source src/test/resources/application-test.properties
-            echo "After sourcing:"
-            env
-
-      - run:
           name: Build and Test
           command: ./gradlew clean build
           # Add more testing commands as needed
