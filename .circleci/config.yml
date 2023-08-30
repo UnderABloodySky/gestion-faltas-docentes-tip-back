@@ -32,7 +32,7 @@ jobs:
             
             echo "Before sourcing:"
             env
-            source src/test/resources/application-test.properties
+            source $CIRCLE_WORKING_DIRECTORY/src/test/resources/application-test.properties
             echo "After sourcing:"
             env
 
