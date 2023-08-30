@@ -25,12 +25,9 @@ jobs:
       - run:
           name: Debug
           command: |
-            echo "Before sourcing:"
-            env
-            source application-test.properties
-            echo "After sourcing:"
-            env
-
+            ls -la src/test/resources/
+            cat src/test/resources/application-test.properties
+            
             # Load environment variables from application-test.properties
             source src/test/resources/application-test.properties
             
