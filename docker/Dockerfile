@@ -34,6 +34,16 @@ RUN /etc/init.d/postgresql restart
 # Espera un momento para asegurarse de que PostgreSQL se reinicie correctamente
 RUN sleep 5
 
+# Copia los archivos relacionados con Gradle al contenedor
+COPY /home/chesire/Escritorio/TIP/gestion-faltas-docentes-tip-back/build.gradle.kts /app/build.gradle
+COPY settings.gradle /app/settings.gradle
+
+# Cambia al directorio de trabajo de la aplicación
+WORKDIR /app
+
+# Instala las dependencias de Gradle
+RUN ./gradlew dependencies
+
 # Ejecuta el archivo SQL para crear la tabla
 USER postgres
 RUN /etc/init.d/postgresql start && \
