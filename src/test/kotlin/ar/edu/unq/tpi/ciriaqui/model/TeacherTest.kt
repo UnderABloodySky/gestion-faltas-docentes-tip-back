@@ -15,7 +15,7 @@ class TeacherTest {
 
     @BeforeEach
     fun setUp() {
-        aTeacher = Teacher(name = "Pepito")
+        aTeacher = Teacher(name = "Pepito", password = "asd123", email="tea@asd.cp")
     }
 
     @Test

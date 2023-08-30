@@ -16,12 +16,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
 class TeacherServiceTest {
 
     @Autowired
@@ -35,7 +37,7 @@ class TeacherServiceTest {
     @BeforeEach
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        teacherService = TeacherService(teacherRepository)
+        teacherService = TeacherService(teacherRepositoryMock)
         teacherServiceImpl = TeacherService(teacherRepository)
     }
 
@@ -43,7 +45,7 @@ class TeacherServiceTest {
     @DisplayName("TeacherService found a instance of teacher by ID 1 when existe a teacher with this ID")
     fun testTeacherServiceSaveAndFoundATeacherByID() {
         val aTeacherID = 1L
-        val aTeacher = Teacher(id = aTeacherID, name = "Pepito")
+        val aTeacher = Teacher(name = "Pepito", email = "asd@gmail.com", password = "1234")
 
         Mockito.`when`(teacherRepositoryMock.findById(aTeacherID)).thenReturn(Optional.of(aTeacher))
 
@@ -66,11 +68,11 @@ class TeacherServiceTest {
     @Test
     @DisplayName("TeacherService found a instance of teacher by ID 1 when existe a teacher with this ID")
     fun testTeacherServiceImplFoundATeacherByID() {
-        val aTeacher = Teacher(name = "Pepito")
+        val aTeacher = Teacher(name = "Pepita", email = "asd", password = "asd")
 
-        teacherService.save(aTeacher)
+        teacherServiceImpl.save(aTeacher)
 
-        val foundTeacher = teacherService.findTeacherById(aTeacher.id!!)
+        val foundTeacher = teacherServiceImpl.findTeacherById(aTeacher.id!!)
 
         assertNotNull(foundTeacher)
         assertEquals(aTeacher.name, foundTeacher.name)
