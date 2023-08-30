@@ -23,8 +23,14 @@ jobs:
           command: chmod +x ./gradlew
 
       - run:
-          name: Build and Test
+          name: Debug
           command: |
+            echo "Before sourcing:"
+            env
+            source application-test.properties
+            echo "After sourcing:"
+            env
+
             # Load environment variables from application-test.properties
             source application-test.properties
             
