@@ -12,7 +12,7 @@ class TeacherNotFoundExceptionTest {
     @Test
     @DisplayName("The message of a TeacherNotFoundException is the expected")
     fun testTeacherNotFoundExceptionIsTheExpected(){
-        val exception = TeacherNotFoundException(42L)
+        val exception = TeacherNotFoundException(42L.toString())
         assertEquals("Teacher with ID 42 not found", exception.message)
     }
 }

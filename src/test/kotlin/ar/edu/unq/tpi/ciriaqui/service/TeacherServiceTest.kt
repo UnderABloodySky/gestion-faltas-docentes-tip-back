@@ -50,7 +50,7 @@ class TeacherServiceTest {
         Mockito.`when`(teacherRepositoryMock.findById(aTeacherID)).thenReturn(Optional.of(aTeacher))
 
         val foundTeacher = teacherService.findTeacherById(aTeacherID)
-        assertEquals("Pepito", foundTeacher.name)
+        assertEquals("Pepito", foundTeacher!!.name)
     }
 
     @Test
@@ -75,7 +75,7 @@ class TeacherServiceTest {
         val foundTeacher = teacherServiceImpl.findTeacherById(aTeacher.id!!)
 
         assertNotNull(foundTeacher)
-        assertEquals(aTeacher.name, foundTeacher.name)
+        assertEquals(aTeacher.name, foundTeacher!!.name)
     }
 
     @Test
@@ -84,5 +84,19 @@ class TeacherServiceTest {
         org.junit.jupiter.api.assertThrows<TeacherNotFoundException> {
             teacherServiceImpl.findTeacherById(555L)
         }
+    }
+
+    @Test
+    @DisplayName("TeacherService found a instance of teacher by email when existe a teacher with this ID")
+    fun testTeacherServiceImplFoundATeacherByEmail() {
+        val aTeacherEmail = "asd@asd.com"
+        val aTeacher = Teacher(name = "Pepita", email = aTeacherEmail, password = "asd")
+
+        teacherServiceImpl.save(aTeacher)
+
+        val foundTeacher = teacherServiceImpl.findTeacherByEmail(aTeacherEmail)
+
+        assertNotNull(foundTeacher)
+        assertEquals(aTeacher.name, foundTeacher!!.name)
     }
 }

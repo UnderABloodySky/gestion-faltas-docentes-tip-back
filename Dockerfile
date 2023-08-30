@@ -1,8 +1,12 @@
 # Usa la imagen base con OpenJDK 17
 FROM cimg/openjdk:17.0
 
+# Cambia al directorio de trabajo de la aplicación
+WORKDIR /app
+
 # Cambia al usuario root para configuraciones y actualizaciones
 USER root
+
 
 # Actualiza el sistema, instala PostgreSQL y limpia la cache de paquetes
 RUN apt-get update && \
@@ -34,11 +38,19 @@ RUN /etc/init.d/postgresql restart
 # Espera un momento para asegurarse de que PostgreSQL se reinicie correctamente
 RUN sleep 5
 
-# Cambia al directorio de trabajo de la aplicación
-WORKDIR /app
+# Copia los archivos relacionados con Gradle al contenedor
+COPY gradlew /app/gradlew
+COPY build.gradle.kts /app/build.gradle
+COPY settings.gradle.kts /app/settings.gradle
+COPY gradle/wrapper /app/gradle/wrapper
 
-# Copia todo el contenido de tu proyecto al contenedor
-COPY . /app
+RUN chmod +x /app/gradlew && \
+    /app/gradlew clean && \
+    /app/gradlew dependencies
+
+
+# Dar permisos de ejecución al script Gradle Wrapper
+RUN chmod +x gradlew
 
 # Instala las dependencias de Gradle
 RUN ./gradlew dependencies

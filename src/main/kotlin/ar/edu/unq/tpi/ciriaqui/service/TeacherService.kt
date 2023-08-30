@@ -4,16 +4,13 @@ import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class TeacherService(var teacherRepository: TeacherRepository) {
-    fun findTeacherById(aTeacherID: Long): Teacher {
+    fun findTeacherById(aTeacherID: Long): Teacher? {
         val optionalTeacher = teacherRepository.findById(aTeacherID)
-        if (optionalTeacher.isPresent) {
-            return optionalTeacher.get()
-        } else {
-            throw TeacherNotFoundException(aTeacherID)
-        }
+        return this.returnTeacherIfExiste(aTeacherID, optionalTeacher)
     }
     fun save(aTeacher: Teacher) {
         try{
@@ -23,5 +20,18 @@ class TeacherService(var teacherRepository: TeacherRepository) {
             throw err
         }
 
+    }
+
+    fun findTeacherByEmail(anEmail: String): Teacher? {
+        val optionalTeacher = teacherRepository.findTeacherByEmail(anEmail)
+        return this.returnTeacherIfExiste(anEmail, optionalTeacher)
+    }
+
+    private fun returnTeacherIfExiste(anIdentifier : Any, anOptionalTeacher : Optional<Teacher>) : Teacher?{
+        if (anOptionalTeacher.isPresent) {
+            return anOptionalTeacher.get()
+        } else {
+            throw TeacherNotFoundException(anIdentifier.toString())
+        }
     }
 }
