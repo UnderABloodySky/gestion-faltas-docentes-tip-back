@@ -3,7 +3,8 @@ version: 2.1
 executors:
   kotlin-executor:
     docker:
-      - image: cimg/openjdk:17.0 # Use an appropriate JDK version
+      - image: my-image-circleci-ciriaqui
+      #cimg/openjdk:17.0 # Use an appropriate JDK version
 
 jobs:
   build:
