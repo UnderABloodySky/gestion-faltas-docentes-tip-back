@@ -6,3 +6,4 @@ CREATE TABLE IF NOT EXISTS TEACHERS (
     );
 
 INSERT INTO TEACHERS (name, email, password) VALUES ('teacher1', 'teacher1@unq.edu.ar', 'teacher1');
+INSERT INTO TEACHERS (name, email, password) VALUES ('teacher2', 'teacher2@unq.edu.ar', 'teacher2');
