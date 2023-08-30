@@ -4,13 +4,12 @@ executors:
   kotlin-executor:
     docker:
       - image: underabloodysky/my-image-circleci-ciriaqui
-      #cimg/openjdk:17.0 # Use an appropriate JDK version
 
 jobs:
   build:
     executor: kotlin-executor
     steps:
-      - checkout # Checkout the code from your repository
+      - checkout
 
       - run:
           name: Setup environment
@@ -28,13 +27,10 @@ jobs:
           command: |
             ls -la src/test/resources/
             cat src/test/resources/application-test.properties
-            
             chmod 644 src/test/resources/application-test.properties
-            
             echo "Before sourcing:"
             env
             source src/test/resources/application-test.properties
-
             echo "After sourcing:"
             env
 
@@ -56,7 +52,7 @@ jobs:
           command: ./gradlew build jacocoTestReport sonar --info
 
       - store_artifacts:
-          path: app/build/reports/tests # Adjust the path to your test reports
+          path: app/build/reports/tests
           destination: test-reports
 
 workflows:
