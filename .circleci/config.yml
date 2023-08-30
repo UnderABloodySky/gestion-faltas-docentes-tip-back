@@ -28,6 +28,9 @@ jobs:
             ls -la src/test/resources/
             cat src/test/resources/application-test.properties
             
+            # Change permissions of the application-test.properties file
+            chmod 644 src/test/resources/application-test.properties
+            
             # Load environment variables from application-test.properties
             source src/test/resources/application-test.properties
             
