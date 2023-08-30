@@ -25,6 +25,9 @@ jobs:
       - run:
           name: Build and Test
           command: |
+            # Load environment variables from application-test.properties
+            source application-test.properties
+            
             ./gradlew clean build
             # Add more testing commands as needed
 
@@ -51,4 +54,3 @@ workflows:
     jobs:
       - build:
           context: SonarCloud
-
