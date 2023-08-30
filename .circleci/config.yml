@@ -28,14 +28,18 @@ jobs:
             ls -la src/test/resources/
             cat src/test/resources/application-test.properties
             
-            # Change permissions of the application-test.properties file
             chmod 644 src/test/resources/application-test.properties
             
-            # Load environment variables from application-test.properties
+            echo "Before sourcing:"
+            env
             source src/test/resources/application-test.properties
-            
-            ./gradlew clean build
-            # Add more testing commands as needed
+            echo "After sourcing:"
+            env
+
+      - run:
+          name: Build and Test
+          command: ./gradlew clean build
+          # Add more testing commands as needed
 
       - run:
           name: Generate JaCoCo Report
@@ -43,8 +47,7 @@ jobs:
 
       - run:
           name: Analyze on SonarCloud
-          command: |
-            ./gradlew sonar --info
+          command: ./gradlew sonar --info
 
       - run:
           name: Un paso nuevo
