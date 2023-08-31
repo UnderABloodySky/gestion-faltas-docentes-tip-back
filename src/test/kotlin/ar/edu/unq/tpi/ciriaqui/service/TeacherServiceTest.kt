@@ -1,7 +1,9 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
+import ar.edu.unq.tpi.ciriaqui.DTO.LoginDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
+import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -51,6 +53,9 @@ class TeacherServiceTest {
 
         val foundTeacher = teacherService.findTeacherById(aTeacherID)
         assertEquals("Pepito", foundTeacher!!.name)
+        assertEquals(aTeacher.id, foundTeacher.id)
+        assertEquals(aTeacher.email, foundTeacher.email)
+        assertEquals(aTeacher.password, foundTeacher.password)
     }
 
     @Test
@@ -74,8 +79,10 @@ class TeacherServiceTest {
 
         val foundTeacher = teacherServiceImpl.findTeacherById(aTeacher.id!!)
 
-        assertNotNull(foundTeacher)
         assertEquals(aTeacher.name, foundTeacher!!.name)
+        assertEquals(aTeacher.id, foundTeacher.id)
+        assertEquals(aTeacher.email, foundTeacher.email)
+        assertEquals(aTeacher.password, foundTeacher.password)
     }
 
     @Test
@@ -96,7 +103,46 @@ class TeacherServiceTest {
 
         val foundTeacher = teacherServiceImpl.findTeacherByEmail(aTeacherEmail)
 
-        assertNotNull(foundTeacher)
         assertEquals(aTeacher.name, foundTeacher!!.name)
+        assertEquals(aTeacher.id, foundTeacher.id)
+        assertEquals(aTeacher.email, foundTeacher.email)
+        assertEquals(aTeacher.password, foundTeacher.password)
+    }
+
+    @Test
+    @DisplayName("TeacherService login a teacher by email when password is ok")
+    fun testTeacherServiceImplLoginATeacher() {
+        val aTeacherEmail = "asd@asd.com"
+        val aTeacherPassword = "asd"
+        val aTeacher = Teacher(name = "Pepita", email = aTeacherEmail, password = "asd")
+
+        teacherServiceImpl.save(aTeacher)
+
+        val foundTeacher = teacherServiceImpl.login(LoginDTO(aTeacherEmail, aTeacherPassword))
+
+        assertEquals(aTeacher.name, foundTeacher!!.name)
+        assertEquals(aTeacher.password, foundTeacher.password)
+        assertEquals(aTeacher.email, foundTeacher.email)
+    }
+
+    @Test
+    @DisplayName("TeacherService throws a TeacherNotFoundException when try to login with an incorrect email")
+    fun testTeacherServiceThrowsTeacherNotFoundExceptionWhenEmailIsWrong() {
+        val aTeacher = Teacher(name = "Pepita", email = "saras@gmail.com", password = "asd")
+        teacherRepository.save(aTeacher)
+        org.junit.jupiter.api.assertThrows<IncorrectCredentialException> {
+            teacherServiceImpl.login(LoginDTO("sarasa@gmail.com", "1234"))
+        }
+    }
+
+    @Test
+    @DisplayName("TeacherService throws a IncorrectCredentialsException when try to login with an incorrect password")
+    fun testTeacherServiceThrowsTeacherNotFoundExceptionWhenPassWordIsWrong() {
+        val password = "asd"
+        val aTeacher = Teacher(name = "Pepita", email = "sarasa@gmail.com", password = password)
+        teacherRepository.save(aTeacher)
+        org.junit.jupiter.api.assertThrows<IncorrectCredentialException> {
+            teacherServiceImpl.login(LoginDTO("sarasa@gmail.com", "1234"))
+        }
     }
 }

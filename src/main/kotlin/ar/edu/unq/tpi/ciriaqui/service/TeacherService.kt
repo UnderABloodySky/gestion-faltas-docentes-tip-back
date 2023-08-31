@@ -1,7 +1,9 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
+import ar.edu.unq.tpi.ciriaqui.DTO.LoginDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
+import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import org.springframework.stereotype.Service
 import java.util.*
@@ -27,7 +29,24 @@ class TeacherService(var teacherRepository: TeacherRepository) {
         return this.returnTeacherIfExiste(anEmail, optionalTeacher)
     }
 
-    private fun returnTeacherIfExiste(anIdentifier : Any, anOptionalTeacher : Optional<Teacher>) : Teacher?{
+    fun login(aLoginDTO: LoginDTO) : Teacher?{
+        val teacher : Teacher?
+        try{
+            teacher = this.findTeacherByEmail(aLoginDTO.email)
+        }
+        catch(err : TeacherNotFoundException){
+            throw IncorrectCredentialException()
+        }
+        if(teacher!!.isCorrectPassword(aLoginDTO.password)){
+            return teacher
+        }
+        else{
+            throw IncorrectCredentialException()
+        }
+
+    }
+
+    private fun returnTeacherIfExiste(anIdentifier : Any, anOptionalTeacher : Optional<Teacher>) : Teacher{
         if (anOptionalTeacher.isPresent) {
             return anOptionalTeacher.get()
         } else {
