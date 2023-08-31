@@ -43,7 +43,6 @@ class TeacherService(var teacherRepository: TeacherRepository) {
         else{
             throw IncorrectCredentialException()
         }
-
     }
 
     private fun returnTeacherIfExiste(anIdentifier : Any, anOptionalTeacher : Optional<Teacher>) : Teacher{

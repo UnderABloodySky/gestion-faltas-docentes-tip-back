@@ -47,7 +47,7 @@ class TeacherServiceTest {
     @DisplayName("TeacherService found a instance of teacher by ID 1 when existe a teacher with this ID")
     fun testTeacherServiceSaveAndFoundATeacherByID() {
         val aTeacherID = 1L
-        val aTeacher = Teacher(name = "Pepito", email = "asd@gmail.com", password = "1234")
+        val aTeacher = Teacher(name = "Pepito", email = "asdTeacherServiceOk@gmail.com", password = "1234")
 
         Mockito.`when`(teacherRepositoryMock.findById(aTeacherID)).thenReturn(Optional.of(aTeacher))
 
@@ -96,7 +96,7 @@ class TeacherServiceTest {
     @Test
     @DisplayName("TeacherService found a instance of teacher by email when existe a teacher with this ID")
     fun testTeacherServiceImplFoundATeacherByEmail() {
-        val aTeacherEmail = "asd@asd.com"
+        val aTeacherEmail = "asdTeacherServiceB@asd.com"
         val aTeacher = Teacher(name = "Pepita", email = aTeacherEmail, password = "asd")
 
         teacherServiceImpl.save(aTeacher)
@@ -112,7 +112,7 @@ class TeacherServiceTest {
     @Test
     @DisplayName("TeacherService login a teacher by email when password is ok")
     fun testTeacherServiceImplLoginATeacher() {
-        val aTeacherEmail = "asd@asd.com"
+        val aTeacherEmail = "asdTeacherServiceC@asd.com"
         val aTeacherPassword = "asd"
         val aTeacher = Teacher(name = "Pepita", email = aTeacherEmail, password = "asd")
 
