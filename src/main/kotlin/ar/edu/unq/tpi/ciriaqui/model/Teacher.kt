@@ -11,9 +11,7 @@ data class Teacher(
     val email : String,
     var password: String){
 
-    fun isCorrectPassword(password: String): Boolean {
-        return this.password == password
-    }
+    fun isCorrectPassword(password: String): Boolean = this.password == password
 
     constructor() : this(null, "", "", "")
 
