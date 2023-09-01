@@ -26,8 +26,6 @@ data class Teacher(
     override fun hashCode(): Int = this.hashCode()
 
     @Override
-    override fun toString(): String {
-        return this::class.simpleName + "(id = $id )"
-    }
+    override fun toString(): String = this::class.simpleName + "(id = $id )"
 }
 
