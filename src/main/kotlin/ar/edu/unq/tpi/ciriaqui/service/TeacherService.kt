@@ -1,6 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
-import ar.edu.unq.tpi.ciriaqui.DTO.LoginDTO
+import ar.edu.unq.tpi.ciriaqui.dto.LoginDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
@@ -31,19 +31,12 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
     }
 
     fun login(aLoginDTO: LoginDTO) : Teacher?{
-        val teacher : Teacher?
-        try{
-            teacher = this.findTeacherByEmail(aLoginDTO.email)
-        }
-        catch(err : TeacherNotFoundException){
+        val teacher = try{
+            this.findTeacherByEmail(aLoginDTO.email)
+        }catch(err : TeacherNotFoundException){
             throw IncorrectCredentialException()
         }
-        if(teacher!!.isCorrectPassword(aLoginDTO.password)){
-            return teacher
-        }
-        else{
-            throw IncorrectCredentialException()
-        }
+        return if(teacher!!.isCorrectPassword(aLoginDTO.password)) teacher else throw IncorrectCredentialException()
     }
 
     private fun returnTeacherIfExiste(anIdentifier : Any, anOptionalTeacher : Optional<Teacher>) : Teacher{

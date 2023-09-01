@@ -1,6 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
-import ar.edu.unq.tpi.ciriaqui.DTO.LoginDTO
+import ar.edu.unq.tpi.ciriaqui.dto.LoginDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException

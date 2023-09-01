@@ -1,6 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.controller
 
-import ar.edu.unq.tpi.ciriaqui.DTO.LoginDTO
+import ar.edu.unq.tpi.ciriaqui.dto.LoginDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*
 class TeacherController(@Autowired private val teacherService: TeacherService) {
 
     @GetMapping("/")
-    fun getHello(): ResponseEntity<String> {
-        return ResponseEntity.ok("/teacher")
-    }
+    fun getHello(): ResponseEntity<String> = ResponseEntity.ok("/teacher")
 
     @GetMapping("/email/{email}")
     fun getTeacherByEmail(@PathVariable("email") email: String): ResponseEntity<Teacher> {
@@ -25,8 +23,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
         return try{
             teacher = teacherService.findTeacherByEmail(email)
             ResponseEntity(teacher, HttpStatus.OK)
-        }
-        catch(err : TeacherNotFoundException){
+        }catch(err : TeacherNotFoundException){
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
@@ -37,8 +34,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
         return try{
             teacher = teacherService.findTeacherById(id as Long)
             ResponseEntity(teacher, HttpStatus.OK)
-        }
-        catch(err : TeacherNotFoundException){
+        }catch(err : TeacherNotFoundException){
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }

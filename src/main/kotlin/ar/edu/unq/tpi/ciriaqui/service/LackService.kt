@@ -1,8 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
-import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
-import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class LackService(@Autowired var lackRepository : LackRepository, @Autowired var teacherRepository : TeacherRepository) {
+class LackService(@Autowired var lackRepository : LackRepository) {
     fun save(article: Article, beginDate: LocalDate, teacher: Teacher) : Lack{
         return if(this.isCorrectDate(beginDate)) lackRepository.save(Lack(article, beginDate, teacher)) else throw IncorrectDateException()
     }
