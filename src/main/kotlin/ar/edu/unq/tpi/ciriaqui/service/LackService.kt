@@ -22,5 +22,6 @@ class LackService(@Autowired var lackRepository : LackRepository) {
     }
 
     private fun isCorrectDate(date: LocalDate) : Boolean = LocalDate.now() <= date
+    fun lacksOf(id: Long?): List<Lack> = lackRepository.findAllByTeacherId(id!!)
 
 }

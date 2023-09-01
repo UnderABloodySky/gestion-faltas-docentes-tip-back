@@ -10,4 +10,5 @@ import java.util.*
 interface LackRepository  : JpaRepository<Lack, Long>{
     @EntityGraph(attributePaths = ["teacher"])
     fun findById(id: Long?): Optional<Lack>
+    fun findAllByTeacherId(teacherId: Long): List<Lack>
 }

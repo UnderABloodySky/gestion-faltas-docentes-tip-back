@@ -55,5 +55,11 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         }
     }
 
-
+    fun lacksOf(id: Long?): ResponseEntity<List<Lack>> {
+        return try{
+            ResponseEntity(lackService.lacksOf(id), HttpStatus.OK)
+        }catch(err:Exception){
+            ResponseEntity(lackService.lacksOf(id), HttpStatus.OK)
+        }
+    }
 }

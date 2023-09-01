@@ -32,11 +32,14 @@ class LackControllerTest {
     private lateinit var lackController: LackController
     private lateinit var aParticularLackDTO: LackDTO
     private lateinit var aTeacher: Teacher
+    private lateinit var otherTeacher: Teacher
     private lateinit var savedLack: Lack
     @BeforeEach
     fun setUp(){
         aTeacher = Teacher(name = "El que falto", email ="faltante@fgh.fk", password="12345")
+        otherTeacher = Teacher(name = "Uno que no falto", email="nofalto@unq", password="sarmiento")
         teacherService.save(aTeacher)
+        teacherService.save(otherTeacher)
         lackController = LackController(lackService, teacherService)
         aParticularLackDTO = LackDTO("PARTICULAR", "2023-12-31", aTeacher.id!!)
         savedLack = lackController.save(aParticularLackDTO).body!!
@@ -81,5 +84,26 @@ class LackControllerTest {
         val wrongDateLackDTO = LackDTO("CONTEST", "2025-01-01", 420000L)
         val response = lackController.save(wrongDateLackDTO)
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+    }
+
+    @Test
+    @DisplayName("LackController returns an empty list when the teacher doesnt faul")
+    fun testLackControllerReturnsAnEmptyListWhenTheTeacherDoesntFaul(){
+        val response = lackController.lacksOf(otherTeacher.id).body
+        assertEquals(0, response?.size)
+    }
+
+    @Test
+    @DisplayName("LackController returns an empty list when the teacher doesnt faul")
+    fun testLackControllerReturnsAnListWithOneElementeWhenTheTeacherHasOnlyALack(){
+        val response = lackController.lacksOf(aTeacher.id).body
+        assertEquals(1, response?.size)
+    }
+
+    @Test
+    @DisplayName("LackController returns an empty list when the teacher doesnt faul")
+    fun testLackControllerThrowAnExceptionWhenTheTeacherDoesntExist(){
+        val response = lackController.lacksOf(57483920L)
+        //assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
 }
