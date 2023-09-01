@@ -6,6 +6,7 @@ import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -19,27 +20,26 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
     }
 
     @GetMapping("/email/{email}")
-    fun getTeacherByEmail(@PathVariable email: String): ResponseEntity<Teacher> {
+    fun getTeacherByEmail(@PathVariable("email") email: String): ResponseEntity<Teacher> {
         val teacher: Teacher?
         return try{
             teacher = teacherService.findTeacherByEmail(email)
-            ResponseEntity.ok(teacher)
+            ResponseEntity(teacher, HttpStatus.OK)
         }
         catch(err : TeacherNotFoundException){
-            return ResponseEntity.notFound().build()
+            ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
 
     @GetMapping("/id/{id}")
-    fun getTeacherByID(@PathVariable id: String): ResponseEntity<Teacher> {
-        val idAsLong = id as Long
+    fun getTeacherByID(@PathVariable("id") id: String): ResponseEntity<Teacher> {
         val teacher: Teacher?
         return try{
-            teacher = teacherService.findTeacherById(idAsLong)
-            ResponseEntity.ok(teacher)
+            teacher = teacherService.findTeacherById(id as Long)
+            ResponseEntity(teacher, HttpStatus.OK)
         }
         catch(err : TeacherNotFoundException){
-            return ResponseEntity.notFound().build()
+            ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
 
@@ -48,9 +48,9 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
         val teacher: Teacher?
         return try {
             teacher = teacherService.login(credentials)
-            ResponseEntity.ok(teacher)
+            ResponseEntity(teacher, HttpStatus.OK)
         }catch (err: IncorrectCredentialException) {
-            ResponseEntity.badRequest().build()
+            ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 }

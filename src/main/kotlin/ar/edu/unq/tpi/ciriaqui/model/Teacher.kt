@@ -4,7 +4,6 @@ import jakarta.persistence.*
 import org.hibernate.Hibernate
 
 @Entity
-@Table(name = "TEACHERS")
 data class Teacher(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,

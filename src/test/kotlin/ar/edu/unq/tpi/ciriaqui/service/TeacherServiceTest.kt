@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -89,7 +90,7 @@ class TeacherServiceTest {
     @DisplayName("TeacherService throws a TeacherNotFoundException when find by ID with a wrong ID")
     fun testTeacherServiceThrowsTeacherNotFoundExceptionReally() {
         org.junit.jupiter.api.assertThrows<TeacherNotFoundException> {
-            teacherServiceImpl.findTeacherById(555L)
+            teacherServiceImpl.findTeacherById(5)
         }
     }
 
@@ -130,7 +131,7 @@ class TeacherServiceTest {
     fun testTeacherServiceThrowsTeacherNotFoundExceptionWhenEmailIsWrong() {
         val aTeacher = Teacher(name = "Pepita", email = "saras@gmail.com", password = "asd")
         teacherRepository.save(aTeacher)
-        org.junit.jupiter.api.assertThrows<IncorrectCredentialException> {
+        assertThrows<IncorrectCredentialException> {
             teacherServiceImpl.login(LoginDTO("sarasa@gmail.com", "1234"))
         }
     }
@@ -141,7 +142,7 @@ class TeacherServiceTest {
         val password = "asd"
         val aTeacher = Teacher(name = "Pepita", email = "sarasa@gmail.com", password = password)
         teacherRepository.save(aTeacher)
-        org.junit.jupiter.api.assertThrows<IncorrectCredentialException> {
+        assertThrows<IncorrectCredentialException> {
             teacherServiceImpl.login(LoginDTO("sarasa@gmail.com", "1234"))
         }
     }
