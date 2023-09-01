@@ -5,12 +5,13 @@ import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class TeacherService(var teacherRepository: TeacherRepository) {
-    fun findTeacherById(aTeacherID: Long): Teacher? {
+class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
+    fun findTeacherById(aTeacherID: Long) : Teacher? {
         val optionalTeacher = teacherRepository.findById(aTeacherID)
         return this.returnTeacherIfExiste(aTeacherID, optionalTeacher)
     }
@@ -46,10 +47,6 @@ class TeacherService(var teacherRepository: TeacherRepository) {
     }
 
     private fun returnTeacherIfExiste(anIdentifier : Any, anOptionalTeacher : Optional<Teacher>) : Teacher{
-        if (anOptionalTeacher.isPresent) {
-            return anOptionalTeacher.get()
-        } else {
-            throw TeacherNotFoundException(anIdentifier.toString())
-        }
+        return if (anOptionalTeacher.isPresent) anOptionalTeacher.get() else throw TeacherNotFoundException(anIdentifier.toString())
     }
 }
