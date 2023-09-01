@@ -23,8 +23,6 @@ data class Teacher(
         return id != null && id == other.id
     }
 
-    override fun hashCode(): Int = this.hashCode()
-
     @Override
     override fun toString(): String = this::class.simpleName + "(id = $id )"
 }

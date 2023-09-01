@@ -13,7 +13,7 @@ class Lack {
 
     val beginDate: LocalDate
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     val teacher: Teacher?
 
