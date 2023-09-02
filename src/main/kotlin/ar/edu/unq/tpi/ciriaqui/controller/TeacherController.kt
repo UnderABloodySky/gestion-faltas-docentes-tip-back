@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/teachers")
 class TeacherController(@Autowired private val teacherService: TeacherService) {
 
-    @GetMapping("/")
-    fun getHello(): ResponseEntity<String> = ResponseEntity.ok("/teacher")
-
     @GetMapping("/email/{email}")
     fun getTeacherByEmail(@PathVariable("email") email: String): ResponseEntity<Teacher> {
         val teacher: Teacher?
@@ -30,9 +27,8 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
 
     @GetMapping("/id/{id}")
     fun getTeacherByID(@PathVariable("id") id: String): ResponseEntity<Teacher> {
-        val teacher: Teacher?
         return try{
-            teacher = teacherService.findTeacherById(id as Long)
+            val teacher = teacherService.findTeacherById(id as Long)
             ResponseEntity(teacher, HttpStatus.OK)
         }catch(err : TeacherNotFoundException){
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -41,9 +37,8 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
 
     @PostMapping("/login")
     fun login(@RequestBody credentials : LoginDTO): ResponseEntity<Teacher> {
-        val teacher: Teacher?
         return try {
-            teacher = teacherService.login(credentials)
+            val teacher = teacherService.login(credentials)
             ResponseEntity(teacher, HttpStatus.OK)
         }catch (err: IncorrectCredentialException) {
             ResponseEntity(HttpStatus.BAD_REQUEST)

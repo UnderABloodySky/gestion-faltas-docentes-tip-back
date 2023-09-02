@@ -22,7 +22,6 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
         catch(err : Exception){
             throw err
         }
-
     }
 
     fun findTeacherByEmail(anEmail: String): Teacher? {
