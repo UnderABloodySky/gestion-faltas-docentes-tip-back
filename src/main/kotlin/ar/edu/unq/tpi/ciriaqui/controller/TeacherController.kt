@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/teachers")
 class TeacherController(@Autowired private val teacherService: TeacherService) {
 
+    @GetMapping("/")
+    fun sayHello() : ResponseEntity<String> = ResponseEntity("Hi, I´m ciriaqui", HttpStatus.OK)
+
     @GetMapping("/email/{email}")
     fun getTeacherByEmail(@PathVariable("email") email: String): ResponseEntity<Teacher> {
         val teacher: Teacher?
@@ -27,8 +30,13 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
 
     @GetMapping("/id/{id}")
     fun getTeacherByID(@PathVariable("id") id: String): ResponseEntity<Teacher> {
+        val idToLong = try{
+            java.lang.Long.parseLong(id)
+        }catch(err: Exception){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
         return try{
-            val teacher = teacherService.findTeacherById(id as Long)
+            val teacher = teacherService.findTeacherById(idToLong)
             ResponseEntity(teacher, HttpStatus.OK)
         }catch(err : TeacherNotFoundException){
             ResponseEntity(HttpStatus.NOT_FOUND)

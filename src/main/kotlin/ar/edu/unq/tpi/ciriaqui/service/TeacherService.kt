@@ -33,7 +33,7 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
         val teacher = try{
             this.findTeacherByEmail(aLoginDTO.email)
         }catch(err : TeacherNotFoundException){
-            throw IncorrectCredentialException()
+            throw err
         }
         return if(teacher!!.isCorrectPassword(aLoginDTO.password)) teacher else throw IncorrectCredentialException()
     }

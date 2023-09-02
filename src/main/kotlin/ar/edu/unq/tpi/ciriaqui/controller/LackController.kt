@@ -19,9 +19,14 @@ import java.time.format.DateTimeFormatter
 @RequestMapping("/lacks")
 class LackController(@Autowired var lackService: LackService, @Autowired var teacherService: TeacherService) {
     @GetMapping("/id/{id}")
-    fun findLackById(@PathVariable("id") id: Long): ResponseEntity<Lack> {
+    fun findLackById(@PathVariable("id") id: String): ResponseEntity<Lack> {
+        val idToLong = try{
+            java.lang.Long.parseLong(id)
+        }catch(err: Exception){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
         return try{
-            val foundLack = lackService.findLackById(id)
+            val foundLack = lackService.findLackById(idToLong)
             ResponseEntity(foundLack, HttpStatus.OK)
         }
         catch(err : LackNotFoundException){
@@ -63,4 +68,7 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         }
         return ResponseEntity(lackService.lacksOf(teacher?.id), HttpStatus.OK)
     }
+
+    @GetMapping("/articles")
+    fun typesOfArticle() : ResponseEntity<Array<Article>> = ResponseEntity(Article.values(), HttpStatus.OK)
 }
