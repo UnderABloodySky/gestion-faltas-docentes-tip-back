@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "36a467fd-a5ec-4a06-a86a-c4c3d853c1eb",
+		"name": "ciriaqui  - requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7489704"
+	},
+	"item": [
+		{
+			"name": "teachers",
+			"item": [
+				{
+					"name": "get teacher by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/teachers/id/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"teachers",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get teacher by wrong id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/teachers/id/1111",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"teachers",
+								"id",
+								"1111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get teacher by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/teachers/email/teacher2@unq.edu.ar",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"teachers",
+								"email",
+								"teacher2@unq.edu.ar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with wrong password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"asdasd\",\n    \"email\": \"teacher2@unq.edu.ar\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/teachers/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"teachers",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with wrong email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"asdasd\",\n    \"email\": \"noexist@unq.edu.ar\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/teachers/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"teachers",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"teacher2pass\",\n    \"email\": \"teacher2@unq.edu.ar\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/teachers/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"teachers",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "lacks",
+			"item": [
+				{
+					"name": "get lack by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/lacks/id/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"lacks",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/lacks/articles",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"lacks",
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get lack by wrong id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/lacks/id/11111",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"lacks",
+								"id",
+								"11111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get lacks by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/lacks/id-teacher/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"lacks",
+								"id-teacher",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add lack to teacher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"article\": \"STUDYDAY\",\n    \"beginDate\": \"2024-04-14\",\n    \"idTeacher\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/lacks/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"lacks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add lack with incorrect date",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"article\": \"STUDYDAY\",\n    \"beginDate\": \"2001-04-14\",\n    \"idTeacher\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/lacks/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"lacks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add lack with incorrect article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"article\": \"STUDYDia\",\n    \"beginDate\": \"2001-04-14\",\n    \"idTeacher\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/ciriaqui/api/lacks/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciriaqui",
+								"api",
+								"lacks",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tests",
+			"item": []
+		}
+	]
+}
