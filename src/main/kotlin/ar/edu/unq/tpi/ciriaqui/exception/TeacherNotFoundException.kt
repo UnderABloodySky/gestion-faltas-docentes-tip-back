@@ -1,3 +1,5 @@
 package ar.edu.unq.tpi.ciriaqui
 
-class TeacherNotFoundException(anIncorrectTeacherID: String) : RuntimeException("Teacher with ID $anIncorrectTeacherID not found")
+import ar.edu.unq.tpi.ciriaqui.exception.EntityNotFoundException
+
+class TeacherNotFoundException(anIncorrectTeacherID: String) : EntityNotFoundException("Teacher", anIncorrectTeacherID)
