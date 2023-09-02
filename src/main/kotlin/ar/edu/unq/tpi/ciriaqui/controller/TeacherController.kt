@@ -2,7 +2,6 @@ package ar.edu.unq.tpi.ciriaqui.controller
 
 import ar.edu.unq.tpi.ciriaqui.dto.LoginDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
-import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,7 +47,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
         return try {
             val teacher = teacherService.login(credentials)
             ResponseEntity(teacher, HttpStatus.OK)
-        }catch (err: IncorrectCredentialException) {
+        }catch (err: Exception) {
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }

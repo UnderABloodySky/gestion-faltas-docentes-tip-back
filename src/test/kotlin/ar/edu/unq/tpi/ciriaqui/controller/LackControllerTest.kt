@@ -48,7 +48,7 @@ class LackControllerTest {
     @Test
     @DisplayName("A lack can be save")
     fun testALackCanBeSave(){
-        val foundLack = lackController.findLackById(savedLack.id!!).body
+        val foundLack = lackController.findLackById(savedLack.id!!.toString()).body
         assertEquals(savedLack.article, foundLack!!.article)
         assertEquals(LocalDate.parse("2023-12-31", DateTimeFormatter.ISO_LOCAL_DATE), foundLack.beginDate)
         assertEquals(aTeacher.id!!, foundLack.teacher?.id!!)
@@ -110,7 +110,7 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController returns NotFOUNDStatus when find by wrong ID")
     fun testLackControllerReturnsNotFOUNDStatusWhenFindByWrongID(){
-        val response = lackController.findLackById(57483920L)
+        val response = lackController.findLackById(57483920L.toString())
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
 }

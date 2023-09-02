@@ -66,7 +66,7 @@ class TeacherServiceTest {
 
         Mockito.`when`(teacherRepositoryMock.findById(incorrectID)).thenReturn(Optional.empty())
 
-        org.junit.jupiter.api.assertThrows<TeacherNotFoundException> {
+        assertThrows<TeacherNotFoundException> {
             teacherService.findTeacherById(incorrectID)
         }
     }
@@ -89,7 +89,7 @@ class TeacherServiceTest {
     @Test
     @DisplayName("TeacherService throws a TeacherNotFoundException when find by ID with a wrong ID")
     fun testTeacherServiceThrowsTeacherNotFoundExceptionReally() {
-        org.junit.jupiter.api.assertThrows<TeacherNotFoundException> {
+        assertThrows<TeacherNotFoundException> {
             teacherServiceImpl.findTeacherById(5)
         }
     }
@@ -131,7 +131,7 @@ class TeacherServiceTest {
     fun testTeacherServiceThrowsTeacherNotFoundExceptionWhenEmailIsWrong() {
         val aTeacher = Teacher(name = "Pepita", email = "saras@gmail.com", password = "asd")
         teacherRepository.save(aTeacher)
-        assertThrows<IncorrectCredentialException> {
+        assertThrows<TeacherNotFoundException> {
             teacherServiceImpl.login(LoginDTO("sarasa@gmail.com", "1234"))
         }
     }
