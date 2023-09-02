@@ -46,9 +46,8 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         }catch(errC: TeacherNotFoundException){
             return ResponseEntity(HttpStatus.NOT_FOUND)
         }
-        val createLack : Lack?
         return try{
-            createLack = lackService.save(article, beginDate, teacher!!)
+            val createLack = lackService.save(article, beginDate, teacher!!)
             ResponseEntity(createLack, HttpStatus.OK)
         }catch(errC: IncorrectDateException){
             ResponseEntity(HttpStatus.BAD_REQUEST)
