@@ -104,6 +104,13 @@ class LackControllerTest {
     @DisplayName("LackController returns an empty list when the teacher doesnt faul")
     fun testLackControllerThrowAnExceptionWhenTheTeacherDoesntExist(){
         val response = lackController.lacksOf(57483920L)
-        //assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+    }
+
+    @Test
+    @DisplayName("LackController returns NotFOUNDStatus when find by wrong ID")
+    fun testLackControllerReturnsNotFOUNDStatusWhenFindByWrongID(){
+        val response = lackController.findLackById(57483920L)
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
 }

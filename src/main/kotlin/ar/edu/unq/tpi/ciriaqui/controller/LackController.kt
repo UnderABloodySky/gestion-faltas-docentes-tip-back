@@ -3,6 +3,7 @@ package ar.edu.unq.tpi.ciriaqui.controller
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
+import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.service.LackService
@@ -19,12 +20,11 @@ import java.time.format.DateTimeFormatter
 class LackController(@Autowired var lackService: LackService, @Autowired var teacherService: TeacherService) {
     @GetMapping("/id/{id}")
     fun findLackById(@PathVariable("id") id: Long): ResponseEntity<Lack> {
-        val foundLack : Lack?
         return try{
-            foundLack = lackService.findLackById(id)
+            val foundLack = lackService.findLackById(id)
             ResponseEntity(foundLack, HttpStatus.OK)
         }
-        catch(err : Exception){
+        catch(err : LackNotFoundException){
             return ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
@@ -32,7 +32,7 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
     @PostMapping("/")
     fun save(@RequestBody aLackDTO : LackDTO) : ResponseEntity<Lack> {
         val article = try {
-            Article.valueOf(aLackDTO.article) // Intenta convertir el String en un Article
+            Article.valueOf(aLackDTO.article)
         }catch (errA: IllegalArgumentException) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
@@ -55,11 +55,13 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         }
     }
 
-    fun lacksOf(id: Long?): ResponseEntity<List<Lack>> {
-        return try{
-            ResponseEntity(lackService.lacksOf(id), HttpStatus.OK)
-        }catch(err:Exception){
-            ResponseEntity(lackService.lacksOf(id), HttpStatus.OK)
+    @GetMapping("/id-teacher/{id}")
+    fun lacksOf(@PathVariable id: Long?): ResponseEntity<List<Lack>> {
+        val teacher = try {
+            teacherService.findTeacherById(id!!)
+        }catch(err: TeacherNotFoundException){
+            return ResponseEntity(HttpStatus.NOT_FOUND)
         }
+        return ResponseEntity(lackService.lacksOf(teacher?.id), HttpStatus.OK)
     }
 }
