@@ -11,10 +11,13 @@ class CorsConfig {
 
     @Bean
     fun corsFilter(): CorsFilter {
+        println("ejecuta corsFilter Bean")
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
-        config.allowedOrigins = listOf("http://localhost:8080", "http://localhost:4200") // Reemplaza con tu dominio permitido
-        config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
+        config.allowedOrigins = listOf("*") // Reemplaza con tu dominio permitido
+        config.allowedMethods = listOf("*")
+//        config.allowedHeaders = listOf("*")
+//        config.allowedOriginPatterns = listOf("*")
         source.registerCorsConfiguration("/**", config)
         return CorsFilter(source)
     }
