@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@CrossOrigin(maxAge = 3600, origins = ["*"])
 @RestController
 @RequestMapping("/teachers")
 class TeacherController(@Autowired private val teacherService: TeacherService) {
