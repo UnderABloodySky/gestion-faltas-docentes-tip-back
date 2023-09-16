@@ -87,4 +87,39 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         }
         return ResponseEntity(HttpStatus.OK)
     }
+
+    @PutMapping("/id/{id}")
+    fun updateLackById(@PathVariable id: String, @RequestBody updateDTO: LackDTO): ResponseEntity<Lack> {
+        val idToLong = try{
+            java.lang.Long.parseLong(id)
+        }catch(err: Exception){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+        val article = try {
+            Article.valueOf(updateDTO.article)
+        }catch (errA: IllegalArgumentException) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+        val beginDate = try{
+            LocalDate.parse(updateDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        }catch(errB: Exception){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+        val endDate = try{
+            LocalDate.parse(updateDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        }catch(errB: Exception){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+
+        val lackToUpdate = try{
+            this.lackService.updatelackById(idToLong, updateDTO)
+        }
+        catch(err:LackNotFoundException){
+            return ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+        catch(err:IncorrectDateException){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+        return ResponseEntity(lackToUpdate, HttpStatus.OK)
+    }
 }

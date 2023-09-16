@@ -2,6 +2,7 @@ package ar.edu.unq.tpi.ciriaqui.controller
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
+import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.LackService
@@ -44,7 +45,7 @@ class LackControllerTest {
         teacherService.save(aTeacher)
         teacherService.save(otherTeacher)
         lackController = LackController(lackService, teacherService)
-        aParticularLackDTO = LackDTO("PARTICULAR", "2023-12-31", aTeacher.id!!)
+        aParticularLackDTO = LackDTO("PARTICULAR", "2023-12-31", "2023-12-31", aTeacher.id!!)
         savedLack = lackController.save(aParticularLackDTO).body!!
     }
 
@@ -60,7 +61,7 @@ class LackControllerTest {
     @Test
     @DisplayName("A lack can´t be save when date is previous to now")
     fun testALackCannotBeSave(){
-        val wrongDateLackDTO = LackDTO("CONTEST", "1987-04-14", aTeacher.id!!)
+        val wrongDateLackDTO = LackDTO("CONTEST", "1987-04-14", "1987-04-14",aTeacher.id!!)
         val response = lackController.save(wrongDateLackDTO)
         assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
     }
@@ -68,7 +69,7 @@ class LackControllerTest {
     @Test
     @DisplayName("A lack can´t be save when Article is wrong")
     fun testALackCannotBeSaveWhenArticleIsWrong(){
-        val wrongDateLackDTO = LackDTO("ASD", "2024-04-14", aTeacher.id!!)
+        val wrongDateLackDTO = LackDTO("ASD", "2024-04-14", "2024-04-14",aTeacher.id!!)
         val response = lackController.save(wrongDateLackDTO)
         assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
     }
@@ -76,7 +77,7 @@ class LackControllerTest {
     @Test
     @DisplayName("A lack can´t be save when Date cannot be parse")
     fun testALackCannotBeSaveWhenDateIsWrong(){
-        val wrongDateLackDTO = LackDTO("CONTEST", "fghj", aTeacher.id!!)
+        val wrongDateLackDTO = LackDTO("CONTEST", "fghj", "2024-04-14",aTeacher.id!!)
         val response = lackController.save(wrongDateLackDTO)
         assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
     }
@@ -84,7 +85,7 @@ class LackControllerTest {
     @Test
     @DisplayName("A lack can´t be save when teacher id is wrong")
     fun testALackCannotBeSaveWhenIDIsWrong(){
-        val wrongDateLackDTO = LackDTO("CONTEST", "2025-01-01", 420000L)
+        val wrongDateLackDTO = LackDTO("CONTEST", "2025-01-01", "2025-01-01", 420000L)
         val response = lackController.save(wrongDateLackDTO)
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
@@ -148,4 +149,26 @@ class LackControllerTest {
         lackController.deleteLack(123456789012345L)
         assertEquals(antiqueCount, lackRepository.count())
     }
+
+    @Test
+    @DisplayName("LackController can update the article field for a Lack")
+    fun testLackControllerReturnsAnOKWhenUpdateTheArticleFieldForALack(){
+        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        val updateDTO = LackDTO("STUDYDAY", "2023-12-31","2023-12-31", aTeacher.id!!)
+        val response = lackController.updateLackById(otherSavedLack.id.toString(), updateDTO)
+        assertEquals(HttpStatus.OK, response.statusCode)
+    }
+
+    @Test
+    @DisplayName("LackController can update the article field for a Lack")
+    fun testLackControllerCanUpdateTheArticleFieldForALack(){
+        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        val responseBefore = lackController.findLackById(otherSavedLack.id!!.toString())
+        assertEquals(Article.PARTICULAR, responseBefore.body!!.article)
+        val updateDTO = LackDTO("STUDYDAY", "2023-12-31", "2023-12-31", aTeacher.id!!)
+        lackController.updateLackById(otherSavedLack.id.toString(), updateDTO)
+        val responseAfter = lackController.findLackById(otherSavedLack.id!!.toString())
+        assertEquals(Article.STUDYDAY, responseAfter.body!!.article)
+    }
+
 }

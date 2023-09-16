@@ -13,8 +13,8 @@ class Lack {
     @Enumerated(EnumType.STRING)
     lateinit var article: Article
 
-    val beginDate: LocalDate
-    val endDate: LocalDate
+    var beginDate: LocalDate
+    var endDate: LocalDate
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")

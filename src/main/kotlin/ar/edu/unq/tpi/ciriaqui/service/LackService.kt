@@ -1,16 +1,17 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
+import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
+import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
-import jakarta.persistence.Entity
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.jpa.domain.AbstractPersistable_
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -30,13 +31,32 @@ class LackService(@Autowired var lackRepository : LackRepository) {
 
     fun deleteLackById(id: Long?){
         val lackOptional: Optional<Lack> = lackRepository.findById(id)
-        if(lackOptional.isPresent()){
+        if(lackOptional.isPresent){
             lackRepository.deleteById(id!!)
         }
         else{
             throw LackNotFoundException(id)
         }
+    }
 
+    fun updatelackById(idToLong: Long, updateDTO: LackDTO): Lack? {
+        val lackTpUpdate = try{
+            this.findLackById(idToLong)
+        }catch(err: Exception){
+            throw LackNotFoundException(idToLong)
+        }
+        if(updateDTO.idTeacher != lackTpUpdate?.teacher!!.id){
+            throw IncorrectCredentialException()
+        }
+        val beginDate = LocalDate.parse(updateDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        val endDate = LocalDate.parse(updateDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        if(beginDate > endDate || beginDate < LocalDate.now() || endDate < LocalDate.now()){
+            throw IncorrectDateException()
+        }
+        lackTpUpdate.article = Article.valueOf(updateDTO.article)
+        lackTpUpdate.beginDate = beginDate
+        lackTpUpdate.endDate = endDate
+        return lackRepository.save(lackTpUpdate)
     }
 
 }
