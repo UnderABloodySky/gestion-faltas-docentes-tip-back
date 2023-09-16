@@ -12,8 +12,8 @@ import java.time.LocalDate
 
 @Service
 class LackService(@Autowired var lackRepository : LackRepository) {
-    fun save(article: Article, beginDate: LocalDate, teacher: Teacher) : Lack{
-        return if(this.isCorrectDate(beginDate)) lackRepository.save(Lack(article, beginDate, teacher)) else throw IncorrectDateException()
+    fun save(article: Article, beginDate: LocalDate, endDate: LocalDate = beginDate, teacher: Teacher) : Lack{
+        return if(this.isCorrectDate(beginDate)) lackRepository.save(Lack(article, beginDate, endDate, teacher)) else throw IncorrectDateException()
     }
 
     fun findLackById(id: Long?): Lack? {
