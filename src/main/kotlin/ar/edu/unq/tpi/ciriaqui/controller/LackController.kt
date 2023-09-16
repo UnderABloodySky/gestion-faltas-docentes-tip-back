@@ -47,7 +47,7 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
         val endDate = try{
-            LocalDate.parse(aLackDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
+            LocalDate.parse(aLackDTO.endDate, DateTimeFormatter.ISO_LOCAL_DATE)
         }catch(errB: Exception){
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
