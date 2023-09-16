@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+
 
 @RestController
 @RequestMapping("/lacks")
@@ -36,30 +35,12 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
 
     @PostMapping("")
     fun save(@RequestBody aLackDTO : LackDTO) : ResponseEntity<Lack> {
-        val article = try {
-            Article.valueOf(aLackDTO.article)
-        }catch (errA: IllegalArgumentException) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-        val beginDate = try{
-            LocalDate.parse(aLackDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
-        }catch(errB: Exception){
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-        val endDate = try{
-            LocalDate.parse(aLackDTO.endDate, DateTimeFormatter.ISO_LOCAL_DATE)
-        }catch(errB: Exception){
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-        val teacher = try{
-            teacherService.findTeacherById(aLackDTO.idTeacher)
-        }catch(errC: TeacherNotFoundException){
-            return ResponseEntity(HttpStatus.NOT_FOUND)
-        }
         return try{
-            val createLack = lackService.save(article, beginDate, endDate, teacher!!)
+            val createLack = lackService.save(aLackDTO)
             ResponseEntity(createLack, HttpStatus.OK)
-        }catch(errC: IncorrectDateException){
+        }catch(err: TeacherNotFoundException){
+            ResponseEntity(HttpStatus.NOT_FOUND)
+        }catch(errC: Exception){
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }

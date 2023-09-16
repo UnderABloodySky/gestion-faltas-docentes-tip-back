@@ -70,7 +70,7 @@ class LackControllerTest {
     @Test
     @DisplayName("A lack can´t be save when Article is wrong")
     fun testALackCannotBeSaveWhenArticleIsWrong(){
-        val wrongDateLackDTO = LackDTO(1213L, "ASD", "2024-04-14", "2024-04-14",aTeacher.id!!)
+        val wrongDateLackDTO = LackDTO(savedLack.id, "ASD", "2024-04-14", "2024-04-14",aTeacher.id!!)
         val response = lackController.save(wrongDateLackDTO)
         assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
     }

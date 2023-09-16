@@ -7,7 +7,6 @@ import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
-import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -16,9 +15,13 @@ import java.util.*
 
 
 @Service
-class LackService(@Autowired var lackRepository : LackRepository) {
-    fun save(article: Article, beginDate: LocalDate, endDate: LocalDate = beginDate, teacher: Teacher) : Lack{
-        return if(this.isCorrectDate(beginDate)) lackRepository.save(Lack(article, beginDate, endDate, teacher)) else throw IncorrectDateException()
+class LackService(@Autowired var teacherService : TeacherService, @Autowired var lackRepository : LackRepository) {
+    fun save(aLackDTO : LackDTO) : Lack{
+        val article = Article.valueOf(aLackDTO.article)
+        val beginDate = LocalDate.parse(aLackDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        val endDate = LocalDate.parse(aLackDTO.endDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        val teacher = teacherService.findTeacherById(aLackDTO.idTeacher)
+        return if(this.isCorrectDate(beginDate) && this.isCorrectDate(endDate)) lackRepository.save(Lack(article, beginDate, endDate, teacher)) else throw IncorrectDateException()
     }
 
     fun findLackById(id: Long?): Lack? {
