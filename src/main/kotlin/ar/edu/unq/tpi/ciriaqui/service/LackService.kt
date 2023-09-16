@@ -39,11 +39,12 @@ class LackService(@Autowired var lackRepository : LackRepository) {
         }
     }
 
-    fun updatelackById(idToLong: Long, updateDTO: LackDTO): Lack? {
+    fun updatelackById(updateDTO: LackDTO): Lack? {
+        val id = updateDTO.id
         val lackTpUpdate = try{
-            this.findLackById(idToLong)
+            this.findLackById(id)
         }catch(err: Exception){
-            throw LackNotFoundException(idToLong)
+            throw LackNotFoundException(id)
         }
         if(updateDTO.idTeacher != lackTpUpdate?.teacher!!.id){
             throw IncorrectCredentialException()
