@@ -13,4 +13,5 @@ import org.springframework.transaction.annotation.Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 class LackServiceTest {
+
 }

@@ -76,4 +76,15 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
 
     @GetMapping("/articles")
     fun typesOfArticle() : ResponseEntity<Array<Article>> = ResponseEntity(Article.values(), HttpStatus.OK)
+
+    @DeleteMapping("/id/{id}")
+    fun deleteLack(@PathVariable id : Long?) :ResponseEntity<HttpStatus>{
+        try{
+            this.lackService.deleteLackById(id)
+        }
+        catch(err:Exception){
+            return ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+        return ResponseEntity(HttpStatus.OK)
+    }
 }

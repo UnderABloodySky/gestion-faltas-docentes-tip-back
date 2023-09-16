@@ -1,5 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.controller
 
+import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
@@ -27,6 +28,8 @@ import java.time.format.DateTimeFormatter
 class LackControllerTest {
     @Autowired
     private lateinit var teacherService: TeacherService
+    @Autowired
+    private lateinit var lackRepository : LackRepository
     @Autowired
     private lateinit var lackService: LackService
     private lateinit var lackController: LackController
@@ -112,5 +115,37 @@ class LackControllerTest {
     fun testLackControllerReturnsNotFOUNDStatusWhenFindByWrongID(){
         val response = lackController.findLackById(57483920L.toString())
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+    }
+
+    @Test
+    @DisplayName("LackController returns an OK when delete an Lack by a rigth ID")
+    fun testLackControllerReturnsAnOKWhenDeleteAnLackByARigthID(){
+        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        val response = lackController.deleteLack(otherSavedLack.id)
+        assertEquals(HttpStatus.OK, response.statusCode)
+    }
+
+    @Test
+    @DisplayName("LackController delete a lack when delete an Lack by a rigth ID")
+    fun testLackControllerCanDeleteALackWhenDeleteAnLackByARigthID(){
+        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        val antiqueCount = lackRepository.count()
+        lackController.deleteLack(otherSavedLack.id)
+        assertEquals(antiqueCount-1, lackRepository.count())
+    }
+
+    @Test
+    @DisplayName("LackController returns an NOTFOUND when delete an Lack by a wrong ID")
+    fun testLackControllerReturnsAnNOTFOUNDWhenDeleteAnLackByAWrongID(){
+        val response = lackController.deleteLack(123456789012345L)
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+    }
+
+    @Test
+    @DisplayName("LackController cant delete a lack when delete an Lack by a wrong ID")
+    fun testLackControllerCannotDeleteALackWhenDeleteAnLackByAWrongID(){
+        val antiqueCount = lackRepository.count()
+        lackController.deleteLack(123456789012345L)
+        assertEquals(antiqueCount, lackRepository.count())
     }
 }

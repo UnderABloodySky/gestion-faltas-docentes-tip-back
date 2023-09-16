@@ -6,9 +6,13 @@ import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
+import jakarta.persistence.Entity
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.jpa.domain.AbstractPersistable_
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.util.*
+
 
 @Service
 class LackService(@Autowired var lackRepository : LackRepository) {
@@ -23,5 +27,16 @@ class LackService(@Autowired var lackRepository : LackRepository) {
 
     private fun isCorrectDate(date: LocalDate) : Boolean = LocalDate.now() <= date
     fun lacksOf(id: Long?): List<Lack> = lackRepository.findAllByTeacherId(id!!)
+
+    fun deleteLackById(id: Long?){
+        val lackOptional: Optional<Lack> = lackRepository.findById(id)
+        if(lackOptional.isPresent()){
+            lackRepository.deleteById(id!!)
+        }
+        else{
+            throw LackNotFoundException(id)
+        }
+
+    }
 
 }
