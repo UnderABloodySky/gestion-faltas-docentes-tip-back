@@ -5,9 +5,11 @@ CREATE TABLE IF NOT EXISTS TEACHER (
     password VARCHAR(255) NOT NULL
     );
 
-INSERT INTO TEACHER (id, name, email, password) VALUES (999, 'teacher1', 'teacher1@unq.edu.ar', 'teacher1pass');
-INSERT INTO TEACHER (name, email, password) VALUES ('teacher2', 'teacher2@unq.edu.ar', 'teacher2pass');
-INSERT INTO TEACHER (name, email, password) VALUES ('teacher2', 'teacher2@unq.edu.ar', 'teacher2pass');
+INSERT INTO TEACHER (id, name, email, password) VALUES (1, 'Albus Dumbledore', 'teacher0@asd.cp', 'asd123');
+INSERT INTO TEACHER (id, name, email, password) VALUES (2,'Minerva McGonagall', 'teacher1@howgart.edu', 'asd123');
+INSERT INTO TEACHER (id, name, email, password) VALUES (3, 'Remus Lupin', 'teacher2@howgart.edu', 'asd123');
+INSERT INTO TEACHER (id, name, email, password) VALUES (4, 'Sybill Trelawney', 'teacher3@howgart.edu', 'asd123');
+INSERT INTO TEACHER (id, name, email, password) VALUES (5, 'Quirinus Quirrell', 'teacher4@howgart.edu', 'asd123');
 
 
 

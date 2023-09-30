@@ -116,7 +116,8 @@ class LackServiceTest {
     @Test
     @DisplayName("lackService returns an OK when delete an Lack by a rigth ID")
     fun testlackServiceReturnsAnOKWhenDeleteAnLackByARigthID(){
-        val otherSavedLack = lackService.save(aParticularLackDTO)
+        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2028-12-30", "2028-12-30", aTeacher.id!!)
+        val otherSavedLack = lackService.save(otherParticularLackDTO)
         val response = lackService.deleteLackById(otherSavedLack.id)
         //Falta assert
     }
@@ -124,7 +125,8 @@ class LackServiceTest {
     @Test
     @DisplayName("lackService delete a lack when delete an Lack by a rigth ID")
     fun testlackServiceCanDeleteALackWhenDeleteAnLackByARigthID(){
-        val otherSavedLack = lackService.save(aParticularLackDTO)
+        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2027-12-30", "2027-12-30", aTeacher.id!!)
+        val otherSavedLack = lackService.save(otherParticularLackDTO)
         val antiqueCount = lackRepository.count()
         lackService.deleteLackById(otherSavedLack.id)
         assertEquals(antiqueCount-1, lackRepository.count())
@@ -148,7 +150,8 @@ class LackServiceTest {
     @Test
     @DisplayName("lackService can update the article field for a Lack")
     fun testlackServiceReturnsAnOKWhenUpdateTheArticleFieldForALack(){
-        val otherSavedLack = lackService.save(aParticularLackDTO)
+        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2029-12-30", "2029-12-30", aTeacher.id!!)
+        val otherSavedLack = lackService.save(otherParticularLackDTO)
         val updateDTO = LackDTO(otherSavedLack.id, "STUDYDAY", "2023-12-31","2023-12-31", aTeacher.id!!)
         val response = lackService.updatelackById(updateDTO)
         assertEquals(Article.STUDYDAY, response?.article)
@@ -157,7 +160,8 @@ class LackServiceTest {
     @Test
     @DisplayName("lackService can update the article field for a Lack")
     fun testlackServiceCanUpdateTheArticleFieldForALack(){
-        val otherSavedLack = lackService.save(aParticularLackDTO)
+        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2029-12-30", "2029-12-30", aTeacher.id!!)
+        val otherSavedLack = lackService.save(otherParticularLackDTO)
         val responseBefore = lackService.findLackById(otherSavedLack.id!!)
         assertEquals(Article.PARTICULAR, responseBefore!!.article)
         val updateDTO = LackDTO(otherSavedLack.id,"STUDYDAY", "2023-12-31", "2023-12-31", aTeacher.id!!)

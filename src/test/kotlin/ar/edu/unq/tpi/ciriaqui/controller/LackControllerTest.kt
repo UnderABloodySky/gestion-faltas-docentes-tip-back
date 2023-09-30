@@ -42,12 +42,12 @@ class LackControllerTest {
     fun setUp(){
         aTeacher = Teacher(name = "El que falto", email ="faltante@fgh.fk", password="12345")
         otherTeacher = Teacher(name = "Uno que no falto", email="nofalto@unq", password="sarmiento")
+        lackService = LackService(teacherService, lackRepository)
         teacherService.save(aTeacher)
         teacherService.save(otherTeacher)
         lackController = LackController(lackService, teacherService)
         aParticularLackDTO = LackDTO(null,"PARTICULAR", "2023-12-31", "2023-12-31", aTeacher.id!!)
         savedLack = lackController.save(aParticularLackDTO).body!!
-
     }
 
     @Test
@@ -122,7 +122,8 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController returns an OK when delete an Lack by a rigth ID")
     fun testLackControllerReturnsAnOKWhenDeleteAnLackByARigthID(){
-        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2026-12-30", "2026-12-30", aTeacher.id!!)
+        val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
         val response = lackController.deleteLack(otherSavedLack.id)
         assertEquals(HttpStatus.OK, response.statusCode)
     }
@@ -130,7 +131,8 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController delete a lack when delete an Lack by a rigth ID")
     fun testLackControllerCanDeleteALackWhenDeleteAnLackByARigthID(){
-        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2023-12-30", "2023-12-30", aTeacher.id!!)
+        val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
         val antiqueCount = lackRepository.count()
         lackController.deleteLack(otherSavedLack.id)
         assertEquals(antiqueCount-1, lackRepository.count())
@@ -154,7 +156,8 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController can update the article field for a Lack")
     fun testLackControllerReturnsAnOKWhenUpdateTheArticleFieldForALack(){
-        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        val otherParticularLackDTO = LackDTO(null,"PARTICULAR", "2025-12-31", "2025-12-31", aTeacher.id!!)
+        val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
         val updateDTO = LackDTO(otherSavedLack.id, "STUDYDAY", "2023-12-31","2023-12-31", aTeacher.id!!)
         val response = lackController.updateLackById(updateDTO)
         assertEquals(HttpStatus.OK, response.statusCode)
@@ -163,7 +166,8 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController can update the article field for a Lack")
     fun testLackControllerCanUpdateTheArticleFieldForALack(){
-        val otherSavedLack = lackController.save(aParticularLackDTO).body!!
+        val otherParticularLackDTO = LackDTO(null,"PARTICULAR", "2024-12-31", "2024-12-31", aTeacher.id!!)
+        val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
         val responseBefore = lackController.findLackById(otherSavedLack.id!!.toString())
         assertEquals(Article.PARTICULAR, responseBefore.body!!.article)
         val updateDTO = LackDTO(otherSavedLack.id,"STUDYDAY", "2023-12-31", "2023-12-31", aTeacher.id!!)
