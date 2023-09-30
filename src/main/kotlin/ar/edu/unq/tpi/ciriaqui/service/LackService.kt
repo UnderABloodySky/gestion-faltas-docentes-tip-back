@@ -2,11 +2,13 @@ package ar.edu.unq.tpi.ciriaqui.service
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
+import ar.edu.unq.tpi.ciriaqui.exception.DuplicateLackInDateException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
+import ar.edu.unq.tpi.ciriaqui.utils.LackValidator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -17,6 +19,9 @@ import java.util.*
 @Service
 class LackService(@Autowired var teacherService : TeacherService, @Autowired var lackRepository : LackRepository) {
     fun save(aLackDTO : LackDTO) : Lack{
+        if(! LackValidator(lackRepository).isValid(aLackDTO)){
+            throw DuplicateLackInDateException(aLackDTO)
+        }
         val article = Article.valueOf(aLackDTO.article)
         val beginDate = LocalDate.parse(aLackDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
         val endDate = LocalDate.parse(aLackDTO.endDate, DateTimeFormatter.ISO_LOCAL_DATE)

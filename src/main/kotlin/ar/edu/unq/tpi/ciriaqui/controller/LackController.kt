@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
+import java.time.format.DateTimeParseException
 
 
 @RestController
@@ -51,6 +53,22 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
             teacherService.findTeacherById(id!!)
         }catch(err: TeacherNotFoundException){
             return ResponseEntity(HttpStatus.NOT_FOUND)
+        }
+        return ResponseEntity(lackService.lacksOf(teacher?.id), HttpStatus.OK)
+    }
+
+    @GetMapping("/id-subject/{id}")
+    fun lacksOfTeacherThatInstructs(
+        @PathVariable id: Long?,
+        @RequestParam(value = "begin-date", required = false) beginDate: LocalDate?,
+        @RequestParam(value = "end-date", required = false) endDate: LocalDate?
+    ): ResponseEntity<List<Lack>> {
+        val teacher = try {
+            teacherService.findTeacherById(id!!)
+        } catch (err: TeacherNotFoundException) {
+            return ResponseEntity(HttpStatus.NOT_FOUND)
+        } catch (errB : DateTimeParseException){
+            throw IncorrectDateException()
         }
         return ResponseEntity(lackService.lacksOf(teacher?.id), HttpStatus.OK)
     }

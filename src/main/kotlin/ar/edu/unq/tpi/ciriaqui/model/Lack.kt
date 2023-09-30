@@ -2,7 +2,6 @@ package ar.edu.unq.tpi.ciriaqui.model
 
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import jakarta.persistence.*
-import java.time.DayOfWeek
 import java.time.LocalDate
 
 @Entity
