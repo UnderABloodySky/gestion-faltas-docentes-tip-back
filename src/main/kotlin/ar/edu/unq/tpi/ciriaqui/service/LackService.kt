@@ -63,7 +63,7 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
             throw IncorrectCredentialException()
         }
         val beginDate = LocalDate.parse(updateDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
-        val endDate = LocalDate.parse(updateDTO.beginDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        val endDate = LocalDate.parse(updateDTO.endDate, DateTimeFormatter.ISO_LOCAL_DATE)
         if(beginDate > endDate || beginDate < LocalDate.now() || endDate < LocalDate.now()){
             throw IncorrectDateException()
         }
