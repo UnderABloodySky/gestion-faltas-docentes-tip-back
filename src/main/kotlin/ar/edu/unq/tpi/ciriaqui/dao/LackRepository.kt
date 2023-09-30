@@ -26,6 +26,19 @@ interface LackRepository  : JpaRepository<Lack, Long>{
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate
     ): Long
+
+    @Query("SELECT COUNT(l) FROM Lack l " +
+            "WHERE l.teacher.id = :teacherId " +
+            "AND (:toUpdate = true AND l.id <> :id) " +
+            "AND ((l.beginDate BETWEEN :startDate AND :endDate) OR " +
+            "     (l.endDate BETWEEN :startDate AND :endDate) OR " +
+            "     (:startDate BETWEEN l.beginDate AND l.endDate) OR " +
+            "     (:endDate BETWEEN l.beginDate AND l.endDate))")
+    fun countLacksInDateRangeExceptThis(@Param("id") id: Long,
+                                        @Param("teacherId") teacherId: Long,
+                                        @Param("startDate") startDate: LocalDate,
+                                        @Param("endDate") endDate: LocalDate,
+                                        @Param("toUpdate") toUpdate: Boolean) : Long
 }
 
 

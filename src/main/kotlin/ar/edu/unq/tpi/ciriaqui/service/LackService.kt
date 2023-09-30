@@ -56,7 +56,7 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
         }catch(err: Exception){
             throw LackNotFoundException(id)
         }
-        if(! LackValidator(lackRepository).isValid(updateDTO)){
+        if(!LackValidator(lackRepository).isValidForUpdate(updateDTO)){
             throw DuplicateLackInDateException(updateDTO)
         }
         if(updateDTO.idTeacher != lackTpUpdate?.teacher!!.id){
