@@ -5383,3 +5383,20 @@ Unconditional classes:
 2023-09-30T03:06:13.712-03:00 DEBUG 63840 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2023-09-30T03:06:13.712-03:00 DEBUG 63840 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[Teacher(id = 1 ), Teacher(id = 2 ), Teacher(id = 3 ), Teacher(id = 4 ), Teacher(id = 5 )]]
 2023-09-30T03:06:13.714-03:00 DEBUG 63840 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-09-30T03:14:04.293-03:00 DEBUG 63840 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/ciriaqui/api/teachers/name/E", parameters={}
+2023-09-30T03:14:04.294-03:00 DEBUG 63840 --- [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to ar.edu.unq.tpi.ciriaqui.controller.TeacherController#getTeachersWithPartialName(String)
+2023-09-30T03:14:04.296-03:00 DEBUG 63840 --- [http-nio-8080-exec-6] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2023-09-30T03:14:04.302-03:00 DEBUG 63840 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2023-09-30T03:14:04.302-03:00 DEBUG 63840 --- [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[Teacher(id = 1 ), Teacher(id = 2 ), Teacher(id = 3 ), Teacher(id = 4 ), Teacher(id = 5 )]]
+2023-09-30T03:14:04.303-03:00 DEBUG 63840 --- [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-09-30T03:14:42.883-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/ciriaqui/api/lacks/name/E", parameters={}
+2023-09-30T03:14:42.884-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to ar.edu.unq.tpi.ciriaqui.controller.LackController#lacksOfNameThatInstructs(String, LocalDate, LocalDate)
+2023-09-30T03:14:42.895-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2023-09-30T03:14:42.903-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2023-09-30T03:14:42.976-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2023-09-30T03:14:42.980-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2023-09-30T03:14:42.986-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2023-09-30T03:14:42.990-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2023-09-30T03:14:42.998-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2023-09-30T03:14:42.999-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[ar.edu.unq.tpi.ciriaqui.model.Lack@5b7e924b, ar.edu.unq.tpi.ciriaqui.model.Lack@42aa835b, ar.edu.un (truncated)...]
+2023-09-30T03:14:43.015-03:00 DEBUG 63840 --- [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
