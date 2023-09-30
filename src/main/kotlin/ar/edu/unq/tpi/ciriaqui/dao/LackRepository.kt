@@ -26,7 +26,6 @@ interface LackRepository  : JpaRepository<Lack, Long>{
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate
     ): Long
-
 }
 
 

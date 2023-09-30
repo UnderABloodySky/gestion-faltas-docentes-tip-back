@@ -41,4 +41,8 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
     private fun returnTeacherIfExiste(anIdentifier : Any, anOptionalTeacher : Optional<Teacher>) : Teacher{
         return if (anOptionalTeacher.isPresent) anOptionalTeacher.get() else throw TeacherNotFoundException(anIdentifier.toString())
     }
+
+    fun findByPartialName(partial: String?): List<Teacher> {
+        return teacherRepository.findAllWithPartialName(partial)
+    }
 }

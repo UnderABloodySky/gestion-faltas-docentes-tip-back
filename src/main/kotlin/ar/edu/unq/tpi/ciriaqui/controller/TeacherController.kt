@@ -42,6 +42,9 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
         }
     }
 
+    @GetMapping("/name/{partial}")
+    fun getTeachersWithPartialName(@PathVariable("partial") partial : String) : ResponseEntity<List<Teacher>> = ResponseEntity.ok(teacherService.findByPartialName(partial))
+
     @PostMapping("/login")
     fun login(@RequestBody credentials : LoginDTO): ResponseEntity<Teacher> {
         return try {

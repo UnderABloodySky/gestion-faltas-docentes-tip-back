@@ -2,6 +2,7 @@ package ar.edu.unq.tpi.ciriaqui.controller
 
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
+import ar.edu.unq.tpi.ciriaqui.exception.DuplicateLackInDateException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
@@ -36,14 +37,16 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
     }
 
     @PostMapping("")
-    fun save(@RequestBody aLackDTO : LackDTO) : ResponseEntity<Lack> {
-        return try{
+    fun save(@RequestBody aLackDTO: LackDTO): ResponseEntity<Lack> {
+        try {
             val createLack = lackService.save(aLackDTO)
-            ResponseEntity(createLack, HttpStatus.OK)
-        }catch(err: TeacherNotFoundException){
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        }catch(errC: Exception){
-            ResponseEntity(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.ok(createLack)
+        } catch (errA: TeacherNotFoundException) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        } catch (errB: DuplicateLackInDateException) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build()
+        } catch (errC: Exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
     }
 
@@ -71,6 +74,22 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
             throw IncorrectDateException()
         }
         return ResponseEntity(lackService.lacksOf(teacher?.id), HttpStatus.OK)
+    }
+
+    @GetMapping("/name/{partial}")
+    fun lacksOfNameThatInstructs(
+        @PathVariable partial: String?,
+        @RequestParam(value = "begin-date", required = false) beginDate: LocalDate?,
+        @RequestParam(value = "end-date", required = false) endDate: LocalDate?
+    ): ResponseEntity<List<Lack?>> {
+        val lacksTeachers = try {
+            lackService.findByPartialName(partial)
+        } catch (err: TeacherNotFoundException) {
+            return ResponseEntity(HttpStatus.NOT_FOUND)
+        } catch (errB : DateTimeParseException){
+            throw IncorrectDateException()
+        }
+        return ResponseEntity.ok(lacksTeachers)
     }
 
     @GetMapping("/articles")

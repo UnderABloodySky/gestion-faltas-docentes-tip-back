@@ -8,6 +8,7 @@ import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
+import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.utils.LackValidator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -29,12 +30,13 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
         return if(this.isCorrectDate(beginDate) && this.isCorrectDate(endDate)) lackRepository.save(Lack(article, beginDate, endDate, teacher)) else throw IncorrectDateException()
     }
 
-    fun findLackById(id: Long?): Lack? {
-        val foundLack = lackRepository.findById(id!!)
+    fun findLackById(id: Long): Lack? {
+        val foundLack = lackRepository.findById(id)
         return if(foundLack.isPresent) foundLack.get() else throw LackNotFoundException(id)
     }
 
     private fun isCorrectDate(date: LocalDate) : Boolean = LocalDate.now() <= date
+
     fun lacksOf(id: Long?): List<Lack> = lackRepository.findAllByTeacherId(id!!)
 
     fun deleteLackById(id: Long?){
@@ -50,9 +52,12 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
     fun updatelackById(updateDTO: LackDTO): Lack? {
         val id = updateDTO.id
         val lackTpUpdate = try{
-            this.findLackById(id)
+            this.findLackById(id!!)
         }catch(err: Exception){
             throw LackNotFoundException(id)
+        }
+        if(! LackValidator(lackRepository).isValid(updateDTO)){
+            throw DuplicateLackInDateException(updateDTO)
         }
         if(updateDTO.idTeacher != lackTpUpdate?.teacher!!.id){
             throw IncorrectCredentialException()
@@ -68,4 +73,9 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
         return lackRepository.save(lackTpUpdate)
     }
 
+    fun findByPartialName(partial: String?): List<Lack?> {
+        val teachers = teacherService.findByPartialName(partial)
+        val teachersIds: List<Long?> = teachers.stream().map { teacher: Teacher -> teacher.id }.toList()
+        return teachersIds.stream().flatMap { id: Long? -> this.lacksOf(id).stream()}.toList()
+    }
 }

@@ -122,7 +122,7 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController returns an OK when delete an Lack by a rigth ID")
     fun testLackControllerReturnsAnOKWhenDeleteAnLackByARigthID(){
-        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2026-12-30", "2026-12-30", aTeacher.id!!)
+        val otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2026-12-30", "2026-12-30", aTeacher.id!!)
         val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
         val response = lackController.deleteLack(otherSavedLack.id)
         assertEquals(HttpStatus.OK, response.statusCode)
@@ -131,7 +131,7 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController delete a lack when delete an Lack by a rigth ID")
     fun testLackControllerCanDeleteALackWhenDeleteAnLackByARigthID(){
-        var otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2023-12-30", "2023-12-30", aTeacher.id!!)
+        val otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2023-12-30", "2023-12-30", aTeacher.id!!)
         val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
         val antiqueCount = lackRepository.count()
         lackController.deleteLack(otherSavedLack.id)
