@@ -15,6 +15,7 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
         val optionalTeacher = teacherRepository.findById(aTeacherID)
         return this.returnTeacherIfExiste(aTeacherID, optionalTeacher)
     }
+
     fun save(aTeacher: Teacher) {
         try{
             teacherRepository.save(aTeacher)

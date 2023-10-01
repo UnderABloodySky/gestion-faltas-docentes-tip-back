@@ -28,14 +28,9 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
     }
 
     @GetMapping("/id/{id}")
-    fun getTeacherByID(@PathVariable("id") id: String): ResponseEntity<Teacher> {
-        val idToLong = try{
-            java.lang.Long.parseLong(id)
-        }catch(err: Exception){
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
+    fun getTeacherByID(@PathVariable("id") id: Long): ResponseEntity<Teacher> {
         return try{
-            val teacher = teacherService.findTeacherById(idToLong)
+            val teacher = teacherService.findTeacherById(id)
             ResponseEntity(teacher, HttpStatus.OK)
         }catch(err : TeacherNotFoundException){
             ResponseEntity(HttpStatus.NOT_FOUND)

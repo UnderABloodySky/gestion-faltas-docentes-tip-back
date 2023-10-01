@@ -15,6 +15,16 @@ interface LackRepository  : JpaRepository<Lack, Long>{
     fun findById(id: Long?): Optional<Lack>
     fun findAllByTeacherId(teacherId: Long): List<Lack>
 
+    @Query("SELECT l FROM Lack l " +
+            "WHERE l.teacher.id = :teacherId " +
+            "AND (l.beginDate BETWEEN :startDate AND :endDate) OR " +
+            "     (l.endDate BETWEEN :startDate AND :endDate) ")
+    fun findLackBeetween(
+        @Param("teacherId") teacherId: Long,
+        @Param("startDate") startDate: LocalDate,
+        @Param("endDate") endDate: LocalDate
+    ): List<Lack>
+
     @Query("SELECT COUNT(l) FROM Lack l " +
             "WHERE l.teacher.id = :teacherId " +
             "AND ((l.beginDate BETWEEN :startDate AND :endDate) OR " +

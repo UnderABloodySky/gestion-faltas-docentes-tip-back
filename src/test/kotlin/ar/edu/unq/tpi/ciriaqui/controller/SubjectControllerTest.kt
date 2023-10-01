@@ -1,10 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.controller
 
-import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
-import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
 import ar.edu.unq.tpi.ciriaqui.dto.SubjectDTO
-import ar.edu.unq.tpi.ciriaqui.model.Article
-import ar.edu.unq.tpi.ciriaqui.model.Cycle
 import ar.edu.unq.tpi.ciriaqui.model.Subject
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.SubjectService
@@ -14,12 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpStatus
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 
 @SpringBootTest
@@ -56,7 +49,7 @@ class SubjectControllerTest {
         fun testASubjectCanBeSave(){
             val foundSubject = subjectController.findSubjectById(aSubject.id!!.toString()).body
             Assertions.assertEquals(aSubject.name, foundSubject!!.name)
-            Assertions.assertEquals(aSubject.cycle, foundSubject!!.cycle)
+            Assertions.assertEquals(aSubject.cycle, foundSubject.cycle)
         }
     /*
             @Test

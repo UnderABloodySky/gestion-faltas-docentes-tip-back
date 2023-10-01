@@ -2,6 +2,7 @@ package ar.edu.unq.tpi.ciriaqui.service
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
+import ar.edu.unq.tpi.ciriaqui.dto.SearchDTO
 import ar.edu.unq.tpi.ciriaqui.exception.DuplicateLackInDateException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectCredentialException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
@@ -37,7 +38,25 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
 
     private fun isCorrectDate(date: LocalDate) : Boolean = LocalDate.now() <= date
 
-    fun lacksOf(id: Long?): List<Lack> = lackRepository.findAllByTeacherId(id!!)
+    fun lacksOf(searchDTO : SearchDTO): List<Lack>{
+        if(searchDTO.beginDate == null && searchDTO.endDate == null){
+            return lackRepository.findAllByTeacherId(searchDTO.teacherId!!)
+        }
+        if(searchDTO.beginDate != null && searchDTO.endDate == null){
+            val begin = LocalDate.parse(searchDTO.beginDate)
+            return lackRepository.findLackBeetween(searchDTO.teacherId!!, begin, LocalDate.now())
+        }
+        if(searchDTO.endDate != null && searchDTO.beginDate == null){
+            val begin = LocalDate.parse("2000-01-01")
+            val end = LocalDate.parse(searchDTO.endDate)
+            return lackRepository.findLackBeetween(searchDTO.teacherId!!, begin, end)
+        }
+
+
+        val begin = LocalDate.parse(searchDTO.beginDate)
+        val end = LocalDate.parse(searchDTO.endDate)
+        return lackRepository.findLackBeetween(searchDTO.teacherId!!, begin, end)
+    }
 
     fun deleteLackById(id: Long?){
         val lackOptional: Optional<Lack> = lackRepository.findById(id)
@@ -73,9 +92,9 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
         return lackRepository.save(lackTpUpdate)
     }
 
-    fun findByPartialName(partial: String?): List<Lack?> {
-        val teachers = teacherService.findByPartialName(partial)
-        val teachersIds: List<Long?> = teachers.stream().map { teacher: Teacher -> teacher.id }.toList()
-        return teachersIds.stream().flatMap { id: Long? -> this.lacksOf(id).stream()}.toList()
+    fun findByPartialName(searchDTO : SearchDTO): List<Lack?> {
+        val teachers = teacherService.findByPartialName(searchDTO.name)
+        val teachersIds: List<SearchDTO> = teachers.stream().map { teacher: Teacher -> SearchDTO(teacher.id, searchDTO.beginDate, searchDTO.endDate) }.toList()
+        return teachersIds.stream().flatMap { this.lacksOf(it).stream()}.toList()
     }
 }

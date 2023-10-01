@@ -2,7 +2,6 @@ package ar.edu.unq.tpi.ciriaqui.controller
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
-import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.LackService
@@ -53,7 +52,7 @@ class LackControllerTest {
     @Test
     @DisplayName("A lack can be save")
     fun testALackCanBeSave(){
-        val foundLack = lackController.findLackById(savedLack.id!!.toString()).body
+        val foundLack = lackController.findLackById(savedLack.id!!).body
         assertEquals(savedLack.article, foundLack!!.article)
         assertEquals(LocalDate.parse("2023-12-31", DateTimeFormatter.ISO_LOCAL_DATE), foundLack.beginDate)
         assertEquals(aTeacher.id!!, foundLack.teacher?.id!!)
@@ -94,28 +93,28 @@ class LackControllerTest {
     @Test
     @DisplayName("LackController returns an empty list when the teacher doesnt faul")
     fun testLackControllerReturnsAnEmptyListWhenTheTeacherDoesntFaul(){
-        val response = lackController.lacksOf(otherTeacher.id).body
+        val response = lackController.lacksOf(otherTeacher.id!!, "2020-01-01", "2025-12-31").body
         assertEquals(0, response?.size)
     }
 
     @Test
     @DisplayName("LackController returns an empty list when the teacher doesnt faul")
     fun testLackControllerReturnsAnListWithOneElementeWhenTheTeacherHasOnlyALack(){
-        val response = lackController.lacksOf(aTeacher.id).body
+        val response = lackController.lacksOf(aTeacher.id!!).body
         assertEquals(1, response?.size)
     }
 
     @Test
     @DisplayName("LackController returns an empty list when the teacher doesnt faul")
     fun testLackControllerThrowAnExceptionWhenTheTeacherDoesntExist(){
-        val response = lackController.lacksOf(57483920L)
+        val response = lackController.lacksOf(57483920L, "", "")
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
 
     @Test
     @DisplayName("LackController returns NotFOUNDStatus when find by wrong ID")
     fun testLackControllerReturnsNotFOUNDStatusWhenFindByWrongID(){
-        val response = lackController.findLackById(57483920L.toString())
+        val response = lackController.findLackById(57483920L)
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
 
