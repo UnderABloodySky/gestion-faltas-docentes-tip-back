@@ -90,7 +90,7 @@ class TeacherServiceTest {
     @DisplayName("TeacherService throws a TeacherNotFoundException when find by ID with a wrong ID")
     fun testTeacherServiceThrowsTeacherNotFoundExceptionReally() {
         assertThrows<TeacherNotFoundException> {
-            teacherServiceImpl.findTeacherById(5)
+            teacherServiceImpl.findTeacherById(1555)
         }
     }
 
