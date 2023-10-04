@@ -2,6 +2,7 @@ package ar.edu.unq.tpi.ciriaqui.controller
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
+import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.LackService
@@ -90,6 +91,7 @@ class LackControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
     }
 
+
     @Test
     @DisplayName("LackController returns an empty list when the teacher doesnt faul")
     fun testLackControllerReturnsAnEmptyListWhenTheTeacherDoesntFaul(){
@@ -152,7 +154,7 @@ class LackControllerTest {
         assertEquals(antiqueCount, lackRepository.count())
     }
 
-    /*
+/*
     @Test
     @DisplayName("LackController can update the article field for a Lack")
     fun testLackControllerReturnsAnOKWhenUpdateTheArticleFieldForALack(){
@@ -169,12 +171,11 @@ class LackControllerTest {
         val otherParticularLackDTO = LackDTO(null,"PARTICULAR", "2024-12-31", "2024-12-31", aTeacher.id!!)
         val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
         otherParticularLackDTO.id = otherSavedLack.id!!
-        val responseBefore = lackController.findLackById(otherSavedLack.id!!.toString())
+        val responseBefore = lackController.findLackById(otherSavedLack.id!!)
         assertEquals(Article.PARTICULAR, responseBefore.body!!.article)
         val updateDTO = LackDTO(otherSavedLack.id,"STUDYDAY", "2023-12-31", "2023-12-31", aTeacher.id!!)
         lackController.updateLackById(updateDTO)
-        val responseAfter = lackController.findLackById(otherSavedLack.id!!.toString())
+        val responseAfter = lackController.findLackById(otherSavedLack.id!!)
         assertEquals(Article.STUDYDAY, responseAfter.body!!.article)
-    }
-*/
+    }*/
 }

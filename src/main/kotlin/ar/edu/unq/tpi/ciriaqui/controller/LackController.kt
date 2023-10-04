@@ -55,7 +55,7 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         }catch(err: TeacherNotFoundException){
             return ResponseEntity(HttpStatus.NOT_FOUND)
         }
-        return ResponseEntity.ok(lackService.lacksOf(SearchDTO(teacherId = teacher?.id, beginDate, endDate)))
+        return ResponseEntity.ok(lackService.lacksOf(SearchDTO(teacherId = teacher?.id, beginDate = beginDate, endDate = endDate)))
     }
 
     @GetMapping("/id-subject/{id}")
@@ -71,7 +71,7 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         } catch (errB : DateTimeParseException){
             throw IncorrectDateException()
         }
-        return ResponseEntity.ok(lackService.lacksOf(SearchDTO(teacher?.id, beginDate!!, endDate!!)))
+        return ResponseEntity.ok(lackService.lacksOf(SearchDTO(teacherId = teacher?.id, beginDate = beginDate!!, endDate = endDate!!)))
     }
 
     @GetMapping("/name/{partial}")
