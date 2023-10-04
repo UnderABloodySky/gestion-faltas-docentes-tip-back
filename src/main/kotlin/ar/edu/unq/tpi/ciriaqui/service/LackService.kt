@@ -1,7 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
-import ar.edu.unq.tpi.ciriaqui.data.DataInitializer
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
 import ar.edu.unq.tpi.ciriaqui.dto.SearchDTO
 import ar.edu.unq.tpi.ciriaqui.exception.DuplicateLackInDateException
@@ -12,20 +11,15 @@ import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.utils.LackValidator
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 
 @Service
 class LackService(@Autowired var teacherService : TeacherService, @Autowired var lackRepository : LackRepository) {
-    final val zoneId = ZoneId.of("America/Argentina/Buenos_Aires")
-
 
     fun save(aLackDTO : LackDTO) : Lack{
         if(! LackValidator(lackRepository).isValid(aLackDTO)){

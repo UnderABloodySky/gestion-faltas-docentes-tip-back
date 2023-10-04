@@ -178,4 +178,69 @@ class LackControllerTest {
         val responseAfter = lackController.findLackById(otherSavedLack.id!!)
         assertEquals(Article.STUDYDAY, responseAfter.body!!.article)
     }
+
+    @Test
+    @DisplayName("LackController can update the begin date of a Lack")
+    fun testLackControllerCanUpdateTheBeginDateForALack() {
+        val otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2024-12-31", "2024-12-31", aTeacher.id!!)
+        val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
+        otherParticularLackDTO.id = otherSavedLack.id!!
+        val responseBefore = lackController.findLackById(otherSavedLack.id!!)
+        assertEquals(Article.PARTICULAR, responseBefore.body!!.article)
+        val updateDTO = LackDTO(otherSavedLack.id, "STUDYDAY", "2024-12-30", "2024-12-31", aTeacher.id!!)
+        lackController.updateLackById(updateDTO)
+        val responseAfter = lackController.findLackById(otherSavedLack.id!!)
+        assertEquals(Article.STUDYDAY, responseAfter.body!!.article)
+        assertEquals(LocalDate.parse("2024-12-30", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.beginDate)
+    }
+
+    @Test
+    @DisplayName("LackController can update the End date of a Lack")
+    fun testLackControllerCanUpdateTheEndDateForALack() {
+        val otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2024-12-31", "2024-12-31", aTeacher.id!!)
+        val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
+        otherParticularLackDTO.id = otherSavedLack.id!!
+        val responseBefore = lackController.findLackById(otherSavedLack.id!!)
+        assertEquals(Article.PARTICULAR, responseBefore.body!!.article)
+        val updateDTO = LackDTO(otherSavedLack.id, "STUDYDAY", "2024-12-30", "2025-01-01", aTeacher.id!!)
+        lackController.updateLackById(updateDTO)
+        val responseAfter = lackController.findLackById(otherSavedLack.id!!)
+        assertEquals(Article.STUDYDAY, responseAfter.body!!.article)
+        assertEquals(LocalDate.parse("2025-01-01", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.endDate)
+    }
+
+    @Test
+    @DisplayName("LackController can update the Begin and the End date of a Lack")
+    fun testLackControllerCanUpdateTheBeginDateAndTheEndDateForALack() {
+        val otherParticularLackDTO = LackDTO(null, "PARTICULAR", "2024-12-31", "2024-12-31", aTeacher.id!!)
+        val otherSavedLack = lackController.save(otherParticularLackDTO).body!!
+        otherParticularLackDTO.id = otherSavedLack.id!!
+        val responseBefore = lackController.findLackById(otherSavedLack.id!!)
+        assertEquals(Article.PARTICULAR, responseBefore.body!!.article)
+        val updateDTO = LackDTO(otherSavedLack.id, "STUDYDAY", "2024-12-19", "2024-12-30", aTeacher.id!!)
+        lackController.updateLackById(updateDTO)
+        val responseAfter = lackController.findLackById(otherSavedLack.id!!)
+        assertEquals(Article.STUDYDAY, responseAfter.body!!.article)
+        assertEquals(LocalDate.parse("2024-12-19", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.beginDate)
+        assertEquals(LocalDate.parse("2024-12-30", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.endDate)
+    }
+
+    @Test
+    @DisplayName("LackController can't update the Begin date of a Lack")
+    fun testLackControllerCantUpdateTheBeginDateOfALack() {
+        val otherParticularLackDTO0 = LackDTO(null, "PARTICULAR", "2024-12-15", "2024-12-20", aTeacher.id!!)
+        val otherParticularLackDTO1 = LackDTO(null, "PARTICULAR", "2024-12-21", "2024-12-30", aTeacher.id!!)
+        val otherSavedLack0 = lackController.save(otherParticularLackDTO0).body!!
+        val otherSavedLack1 = lackController.save(otherParticularLackDTO1).body!!
+        otherParticularLackDTO0.id = otherSavedLack0.id!!
+        otherParticularLackDTO1.id = otherSavedLack1.id!!
+
+        val updateDTO = LackDTO(otherSavedLack1.id, "STUDYDAY", "2024-12-18", "2024-12-29", aTeacher.id!!)
+        lackController.updateLackById(updateDTO)
+
+        val responseAfter = lackController.findLackById(otherSavedLack1.id!!)
+        assertEquals(Article.PARTICULAR, responseAfter.body!!.article)
+        assertEquals(LocalDate.parse("2024-12-18", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.beginDate)
+        assertEquals(LocalDate.parse("2024-12-29", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.endDate)
+    }
 }
