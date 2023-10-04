@@ -115,6 +115,9 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         catch(err:IncorrectDateException){
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+        catch(err:DuplicateLackInDateException){
+            return ResponseEntity(HttpStatus.CONFLICT)
+        }
         return ResponseEntity(lackToUpdate, HttpStatus.OK)
     }
 }

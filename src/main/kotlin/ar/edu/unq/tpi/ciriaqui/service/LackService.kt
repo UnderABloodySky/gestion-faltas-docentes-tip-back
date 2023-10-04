@@ -24,8 +24,8 @@ import java.util.*
 
 @Service
 class LackService(@Autowired var teacherService : TeacherService, @Autowired var lackRepository : LackRepository) {
-    val zoneId = ZoneId.of("America/Argentina/Buenos_Aires")
-    val currentDate = LocalDate.now(zoneId)
+    final val zoneId = ZoneId.of("America/Argentina/Buenos_Aires")
+
 
     fun save(aLackDTO : LackDTO) : Lack{
         if(! LackValidator(lackRepository).isValid(aLackDTO)){
@@ -46,17 +46,10 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
     private fun isCorrectDate(date: LocalDate) : Boolean = LocalDate.now() <= date
 
     fun lacksOf(searchDTO: SearchDTO): List<Lack> {
-        val logger: Logger = LoggerFactory.getLogger(DataInitializer::class.java)
-        logger.info(searchDTO.toString())
-        logger.info("ID: ${searchDTO.teacherId}")
-
-        val teacherId = searchDTO.teacherId ?: throw IllegalArgumentException("Teacher ID cannot be null")
+       val teacherId = searchDTO.teacherId ?: throw IllegalArgumentException("Teacher ID cannot be null")
 
         val startDate = if (searchDTO.beginDate != null) LocalDate.parse(searchDTO.beginDate) else LocalDate.of(2000, 1, 1)
-        val endDate = if (searchDTO.endDate != null) LocalDate.parse(searchDTO.endDate) else LocalDate.of(2026, 1, 1)
-
-        logger.info("startDate: $startDate")
-        logger.info("endDate: $endDate")
+        val endDate = if (searchDTO.endDate != null) LocalDate.parse(searchDTO.endDate) else LocalDate.of(2030, 1, 1)
 
         return lackRepository.findLackBeetween(teacherId, startDate, endDate)
     }
