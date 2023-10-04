@@ -46,16 +46,8 @@ interface LackRepository  : JpaRepository<Lack, Long>{
 
     @Query("SELECT COUNT(l) FROM Lack l " +
             "WHERE l.teacher.id = :teacherId " +
-            "AND l.id <> :id " +
-            "AND ((" +
-            "    :beginDate BETWEEN l.beginDate AND l.endDate " +
-            "    OR " +
-            "    :endDate BETWEEN l.beginDate AND l.endDate " +
-            ") OR (" +
-            "    l.beginDate BETWEEN :beginDate AND :endDate " +
-            "    OR " +
-            "    l.endDate BETWEEN :beginDate AND :endDate " +
-            "))")
+            "AND (:beginDate <= l.endDate AND :endDate >= l.beginDate) " +
+            "AND (l.id <> :id OR l.id IS NULL)")
     fun countOverlappingLacks(
         @Param("id") id: Long,
         @Param("teacherId") teacherId: Long,

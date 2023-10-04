@@ -236,11 +236,8 @@ class LackControllerTest {
         otherParticularLackDTO1.id = otherSavedLack1.id!!
 
         val updateDTO = LackDTO(otherSavedLack1.id, "STUDYDAY", "2024-12-18", "2024-12-29", aTeacher.id!!)
-        lackController.updateLackById(updateDTO)
+        val response = lackController.updateLackById(updateDTO)
 
-        val responseAfter = lackController.findLackById(otherSavedLack1.id!!)
-        assertEquals(Article.PARTICULAR, responseAfter.body!!.article)
-        assertEquals(LocalDate.parse("2024-12-18", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.beginDate)
-        assertEquals(LocalDate.parse("2024-12-29", DateTimeFormatter.ISO_LOCAL_DATE), responseAfter.body!!.endDate)
+        assertEquals(HttpStatus.CONFLICT, response.statusCode)
     }
 }
