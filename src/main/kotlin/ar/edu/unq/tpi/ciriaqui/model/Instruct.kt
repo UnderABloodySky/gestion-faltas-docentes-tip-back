@@ -5,6 +5,8 @@ import java.time.LocalDate
 
 @Entity
 class Instruct {
+    fun getTeacherId(): Long? = teacher?.id!!
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null

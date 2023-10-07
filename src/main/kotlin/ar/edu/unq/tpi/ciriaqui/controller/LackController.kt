@@ -6,20 +6,29 @@ import ar.edu.unq.tpi.ciriaqui.dto.SearchDTO
 import ar.edu.unq.tpi.ciriaqui.exception.DuplicateLackInDateException
 import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
+import ar.edu.unq.tpi.ciriaqui.exception.SubjectFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
+import ar.edu.unq.tpi.ciriaqui.service.InstructService
 import ar.edu.unq.tpi.ciriaqui.service.LackService
+import ar.edu.unq.tpi.ciriaqui.service.SubjectService
 import ar.edu.unq.tpi.ciriaqui.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.format.DateTimeParseException
+import java.util.stream.Stream
 
 
 @RestController
 @RequestMapping("/lacks")
-class LackController(@Autowired var lackService: LackService, @Autowired var teacherService: TeacherService) {
+class LackController(
+    @Autowired var lackService: LackService,
+    @Autowired var teacherService: TeacherService,
+    @Autowired var subjectService: SubjectService,
+    @Autowired var instructService: InstructService
+) {
     @GetMapping("/id/{id}")
     fun findLackById(@PathVariable("id") id: Long): ResponseEntity<Lack> {
         return try{
@@ -64,14 +73,23 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
         @RequestParam(value = "begin-date", required = false) beginDate: String?,
         @RequestParam(value = "end-date", required = false) endDate: String?
     ): ResponseEntity<List<Lack>> {
-        val teacher = try {
-            teacherService.findTeacherById(id!!)
-        } catch (err: TeacherNotFoundException) {
+        val subject = try {
+            subjectService.findSubjectById(id!!)
+        } catch (err: SubjectFoundException) {
             return ResponseEntity(HttpStatus.NOT_FOUND)
         } catch (errB : DateTimeParseException){
             throw IncorrectDateException()
         }
-        return ResponseEntity.ok(lackService.lacksOf(SearchDTO(teacherId = teacher?.id, beginDate = beginDate!!, endDate = endDate!!)))
+        val teachers = try{
+                instructService.findTeachersBySubjectId(subject?.id!!)
+        }catch(err : Exception){
+            throw err
+        }
+        val finalLacks = teachers.stream().flatMap { teacher ->
+            val lacks = lackService.lacksOf(SearchDTO(teacherId = teacher, beginDate = beginDate, endDate = endDate))
+            Stream.of(lacks)
+        }
+        return ResponseEntity.ok(finalLacks as List<Lack>)
     }
 
     @GetMapping("/name/{partial}")

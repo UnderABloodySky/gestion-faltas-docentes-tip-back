@@ -48,8 +48,6 @@ class LackService(@Autowired var teacherService : TeacherService, @Autowired var
         return lackRepository.findLackBeetween(teacherId, startDate, endDate)
     }
 
-
-
     fun deleteLackById(id: Long?){
         val lackOptional: Optional<Lack> = lackRepository.findById(id)
         if(lackOptional.isPresent){

@@ -5,7 +5,9 @@ import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
+import ar.edu.unq.tpi.ciriaqui.service.InstructService
 import ar.edu.unq.tpi.ciriaqui.service.LackService
+import ar.edu.unq.tpi.ciriaqui.service.SubjectService
 import ar.edu.unq.tpi.ciriaqui.service.TeacherService
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -33,6 +35,11 @@ class LackControllerTest {
     private lateinit var lackRepository : LackRepository
     @Autowired
     private lateinit var lackService: LackService
+    @Autowired
+    private lateinit var subjectService: SubjectService
+    @Autowired
+    private lateinit var instructService: InstructService
+
     private lateinit var lackController: LackController
     private lateinit var aParticularLackDTO: LackDTO
     private lateinit var aTeacher: Teacher
@@ -45,7 +52,7 @@ class LackControllerTest {
         lackService = LackService(teacherService, lackRepository)
         teacherService.save(aTeacher)
         teacherService.save(otherTeacher)
-        lackController = LackController(lackService, teacherService)
+        lackController = LackController(lackService, teacherService, subjectService, instructService)
         aParticularLackDTO = LackDTO(null,"PARTICULAR", "2023-12-31", "2023-12-31", aTeacher.id!!)
         savedLack = lackController.save(aParticularLackDTO).body!!
     }
