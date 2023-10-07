@@ -33,15 +33,15 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
 
     @PostMapping("")
     fun save(@RequestBody aLackDTO: LackDTO): ResponseEntity<Lack> {
-        try {
+        return try {
             val createLack = lackService.save(aLackDTO)
-            return ResponseEntity.ok(createLack)
+            ResponseEntity.ok(createLack)
         } catch (errA: TeacherNotFoundException) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         } catch (errB: DuplicateLackInDateException) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build()
+            ResponseEntity.status(HttpStatus.CONFLICT).build()
         } catch (errC: Exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
     }
 

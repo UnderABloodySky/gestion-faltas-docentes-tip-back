@@ -1,11 +1,12 @@
 package ar.edu.unq.tpi.ciriaqui.model
 
 import jakarta.persistence.*
-
 @Entity
 class Subject {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
     val name : String
     @Enumerated(EnumType.STRING)
     var cycle : Cycle

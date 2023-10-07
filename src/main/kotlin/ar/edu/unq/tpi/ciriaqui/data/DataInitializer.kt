@@ -1,10 +1,10 @@
 package ar.edu.unq.tpi.ciriaqui.data
 
 import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
+import ar.edu.unq.tpi.ciriaqui.dao.SubjectRepository
 import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
-import ar.edu.unq.tpi.ciriaqui.model.Article
-import ar.edu.unq.tpi.ciriaqui.model.Lack
-import ar.edu.unq.tpi.ciriaqui.model.Teacher
+import ar.edu.unq.tpi.ciriaqui.dao.InstructRepository
+import ar.edu.unq.tpi.ciriaqui.model.*
 import org.hibernate.internal.util.collections.CollectionHelper.listOf
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
 import java.time.LocalDate
 
 @Component
-class DataInitializer(val teacherRepository: TeacherRepository, val lackRepository: LackRepository) : ApplicationRunner {
+class DataInitializer(val teacherRepository: TeacherRepository, val lackRepository: LackRepository, val subjectRepository : SubjectRepository, val instructRepository : InstructRepository) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments) {
         val logger: Logger = LoggerFactory.getLogger(DataInitializer::class.java)
@@ -34,7 +34,22 @@ class DataInitializer(val teacherRepository: TeacherRepository, val lackReposito
             val lack2 = Lack(Article.STUDYDAY,LocalDate.of(2023, 12, 29), LocalDate.of(2023, 12, 30), teacher4)
             val lacks = listOf(lack0, lack1, lack2)
             lackRepository.saveAll(lacks)
+
+            logger.info("Seeding SUBJECTS")
+            val subject0 = Subject("Defence Against the Dark Arts", Cycle.SECUNDARY)
+            val subject1 = Subject("Astronomy", Cycle.BASIC)
+            val subjects = listOf(subject0, subject1)
+            subjectRepository.saveAll(subjects)
+
+            logger.info("Seeding INSTRUCTS")
+            val instruct0 = Instruct(subject0, teacher2, LocalDate.now())
+            val instruct1 = Instruct(subject1, teacher1, LocalDate.now())
+            val instruct2 = Instruct(subject1, teacher3, LocalDate.now())
+            val instructs = listOf(instruct0, instruct1, instruct2)
+
+            instructRepository.saveAll(instructs)
             logger.info("Seeding DONE")
+
         }
     }
 }

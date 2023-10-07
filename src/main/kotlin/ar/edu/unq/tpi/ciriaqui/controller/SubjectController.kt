@@ -4,7 +4,6 @@ import ar.edu.unq.tpi.ciriaqui.dto.SubjectDTO
 import ar.edu.unq.tpi.ciriaqui.exception.BadNameException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Subject
-import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.SubjectService
 import ar.edu.unq.tpi.ciriaqui.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
