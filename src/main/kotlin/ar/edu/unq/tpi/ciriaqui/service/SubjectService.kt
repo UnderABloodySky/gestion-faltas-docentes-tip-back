@@ -24,4 +24,6 @@ class SubjectService(@Autowired var subjectRepository : SubjectRepository) {
         val foundSubject = subjectRepository.findById(aId)
         return if(foundSubject.isPresent) foundSubject.get() else throw SubjectFoundException(aId)
     }
+
+    fun findByPartialName(partial:String) : List<Subject>? = subjectRepository.findAllWithPartialName(partial)
 }

@@ -43,7 +43,6 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
         return if (anOptionalTeacher.isPresent) anOptionalTeacher.get() else throw TeacherNotFoundException(anIdentifier.toString())
     }
 
-    fun findByPartialName(partial: String?): List<Teacher> {
-        return teacherRepository.findAllWithPartialName(partial)
-    }
+    fun findByPartialName(partial: String?): List<Teacher> = teacherRepository.findAllWithPartialName(partial)
+
 }

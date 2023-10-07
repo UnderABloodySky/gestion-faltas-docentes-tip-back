@@ -4,14 +4,13 @@ import ar.edu.unq.tpi.ciriaqui.dto.SubjectDTO
 import ar.edu.unq.tpi.ciriaqui.exception.BadNameException
 import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Subject
+import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.SubjectService
 import ar.edu.unq.tpi.ciriaqui.service.TeacherService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/subjects")
@@ -26,19 +25,20 @@ class SubjectController(@Autowired var subjectService: SubjectService, @Autowire
         }
     }
 
-    fun findSubjectById(aID: String): ResponseEntity<Subject?> {
-        val idToLong = try{
-            java.lang.Long.parseLong(aID)
-        }catch(err: Exception){
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
+    @GetMapping("id/{id}")
+    fun findSubjectById(id: Long): ResponseEntity<Subject?> {
         return try{
-            val foundLack = subjectService.findSubjectById(idToLong)
+            val foundLack = subjectService.findSubjectById(id)
             ResponseEntity(foundLack, HttpStatus.OK)
         }
         catch(err : LackNotFoundException){
             return ResponseEntity(HttpStatus.NOT_FOUND)
         }
     }
+
+    @GetMapping("/name/{partial}")
+    fun getTeachersWithPartialName(@PathVariable("partial") partial : String) : ResponseEntity<List<Teacher>> = ResponseEntity.ok(subjectService.findByPartialName(partial))
+
+
 
 }
