@@ -47,7 +47,7 @@ class SubjectControllerTest {
         @Test
         @DisplayName("A Subject can be save")
         fun testASubjectCanBeSave(){
-            val foundSubject = subjectController.findSubjectById(aSubject.id!!.toString()).body
+            val foundSubject = subjectController.findSubjectById(aSubject.id!!).body
             Assertions.assertEquals(aSubject.name, foundSubject!!.name)
             Assertions.assertEquals(aSubject.cycle, foundSubject.cycle)
         }

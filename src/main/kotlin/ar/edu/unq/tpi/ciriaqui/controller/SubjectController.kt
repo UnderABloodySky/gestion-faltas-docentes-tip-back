@@ -37,7 +37,7 @@ class SubjectController(@Autowired var subjectService: SubjectService, @Autowire
     }
 
     @GetMapping("/name/{partial}")
-    fun getTeachersWithPartialName(@PathVariable("partial") partial : String) : ResponseEntity<List<Teacher>> = ResponseEntity.ok(subjectService.findByPartialName(partial))
+    fun getSubjectsWithPartialName(@PathVariable("partial") partial : String) : ResponseEntity<List<Subject>> = ResponseEntity.ok(subjectService.findByPartialName(partial))
 
 
 
