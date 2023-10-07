@@ -24,7 +24,7 @@ class LackController(@Autowired var lackService: LackService, @Autowired var tea
     fun findLackById(@PathVariable("id") id: Long): ResponseEntity<Lack> {
         return try{
             val foundLack = lackService.findLackById(id)
-            ResponseEntity(foundLack, HttpStatus.OK)
+            ResponseEntity.ok(foundLack)
         }
         catch(err : LackNotFoundException){
             return ResponseEntity(HttpStatus.NOT_FOUND)
