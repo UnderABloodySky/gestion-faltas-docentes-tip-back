@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -25,7 +26,10 @@ class CiriaquiApplication {
         }
     }
 
-
+    @Override
+    fun configure(http: HttpSecurity) {
+        http.csrf().disable()
+    }
 }
 
 fun main(args: Array<String>) {
