@@ -1,9 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.data
 
-import ar.edu.unq.tpi.ciriaqui.dao.LackRepository
-import ar.edu.unq.tpi.ciriaqui.dao.SubjectRepository
-import ar.edu.unq.tpi.ciriaqui.dao.TeacherRepository
-import ar.edu.unq.tpi.ciriaqui.dao.InstructRepository
+import ar.edu.unq.tpi.ciriaqui.dao.*
 import ar.edu.unq.tpi.ciriaqui.model.*
 import org.hibernate.internal.util.collections.CollectionHelper.listOf
 import org.springframework.boot.ApplicationArguments
@@ -14,7 +11,7 @@ import org.slf4j.LoggerFactory
 import java.time.LocalDate
 
 @Component
-class DataInitializer(val teacherRepository: TeacherRepository, val lackRepository: LackRepository, val subjectRepository : SubjectRepository, val instructRepository : InstructRepository) : ApplicationRunner {
+class DataInitializer(val teacherRepository: TeacherRepository, val lackRepository: LackRepository, val subjectRepository : SubjectRepository, val instructRepository : InstructRepository, val studentRepository: StudentRepository) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments) {
         val logger: Logger = LoggerFactory.getLogger(DataInitializer::class.java)
@@ -46,8 +43,14 @@ class DataInitializer(val teacherRepository: TeacherRepository, val lackReposito
             val instruct1 = Instruct(subject1, teacher1, LocalDate.now())
             val instruct2 = Instruct(subject1, teacher3, LocalDate.now())
             val instructs = listOf(instruct0, instruct1, instruct2)
-
             instructRepository.saveAll(instructs)
+
+            logger.info("Seeding STUDENTS")
+            val student0 = Student("Harry Potter", 12345678, Course.FOURTH)
+            val student1 = Student("Hermione Granger", 12345679, Course.FOURTH)
+            val student2 = Student("Ron Weasley", 12345680, Course.FOURTH)
+            val students = listOf(student0, student1, student2)
+            studentRepository.saveAll(students)
             logger.info("Seeding DONE")
 
         }

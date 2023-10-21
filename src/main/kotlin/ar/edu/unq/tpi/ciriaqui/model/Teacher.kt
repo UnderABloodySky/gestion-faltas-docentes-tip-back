@@ -8,6 +8,7 @@ data class Teacher(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val name : String,
+    @Column(unique = true)
     val email : String,
     var password: String){
 

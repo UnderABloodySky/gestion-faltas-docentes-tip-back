@@ -35,33 +35,39 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(InstructNotFoundException::class)
     fun handleInstructNotFoundException(ex: InstructNotFoundException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
+        val errorResponse = ErrorResponse("El profesor no imparte esa materia", ex.message)
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
     }
 
     @ExceptionHandler(IncorrectDateException::class)
     fun handleIncorrectDateExceptionException(ex: IncorrectDateException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
+        val errorResponse = ErrorResponse("Fecha incorrecta", ex.message)
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
 
     @ExceptionHandler(LackNotFoundException::class)
     fun handleLackNotFoundException(ex: LackNotFoundException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
+        val errorResponse = ErrorResponse("No se pudo encontrar la falta buscada", ex.message)
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
     }
 
     @ExceptionHandler(SubjectFoundException::class)
     fun handleSubjectNotFoundException(ex: SubjectFoundException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
+        val errorResponse = ErrorResponse("No se pudo encontrar a la materia buscada", ex.message)
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
     }
 
 
     @ExceptionHandler(TeacherNotFoundException::class)
     fun handleTeacherNotFoundException(ex: TeacherNotFoundException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
+        val errorResponse = ErrorResponse("No se pudo encontrar al profesor buscado", ex.message)
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
+    }
+
+    @ExceptionHandler(StudentNotFoundException::class)
+    fun handleStudentNotFoundException(ex: StudentNotFoundException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse("No se pudo encontrar al estudiante buscado", ex.message)
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse)
     }
 
     @ExceptionHandler(Exception::class)
