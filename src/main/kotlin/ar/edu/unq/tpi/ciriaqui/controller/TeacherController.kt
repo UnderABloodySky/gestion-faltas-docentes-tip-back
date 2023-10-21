@@ -18,23 +18,14 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
 
     @GetMapping("/email/{email}")
     fun getTeacherByEmail(@PathVariable("email") email: String): ResponseEntity<Teacher> {
-        val teacher: Teacher?
-        return try{
-            teacher = teacherService.findTeacherByEmail(email)
-            ResponseEntity(teacher, HttpStatus.OK)
-        }catch(err : TeacherNotFoundException){
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        }
+        val teacher = teacherService.findTeacherByEmail(email)
+        return ResponseEntity(teacher, HttpStatus.OK)
     }
 
     @GetMapping("/id/{id}")
     fun getTeacherByID(@PathVariable("id") id: Long): ResponseEntity<Teacher> {
-        return try{
-            val teacher = teacherService.findTeacherById(id)
-            ResponseEntity(teacher, HttpStatus.OK)
-        }catch(err : TeacherNotFoundException){
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        }
+        val teacher = teacherService.findTeacherById(id)
+        return ResponseEntity(teacher, HttpStatus.OK)
     }
 
     @GetMapping("/name/{partial}")
@@ -42,11 +33,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
 
     @PostMapping("/login")
     fun login(@RequestBody credentials : LoginDTO): ResponseEntity<Teacher> {
-        return try {
-            val teacher = teacherService.login(credentials)
-            ResponseEntity(teacher, HttpStatus.OK)
-        }catch (err: Exception) {
-            ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
+        val teacher = teacherService.login(credentials)
+        return ResponseEntity(teacher, HttpStatus.OK)
     }
 }

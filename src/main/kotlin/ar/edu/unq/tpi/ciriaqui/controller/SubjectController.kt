@@ -17,27 +17,15 @@ class SubjectController(@Autowired var subjectService: SubjectService, @Autowire
 
     @PostMapping("")
     fun save(aSubjectDTO : SubjectDTO): ResponseEntity<Subject> {
-        return try {
-            ResponseEntity.ok(subjectService.save(aSubjectDTO))
-        }catch(err : BadNameException){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-        }
+        return ResponseEntity.ok(subjectService.save(aSubjectDTO))
     }
 
     @GetMapping("id/{id}")
     fun findSubjectById(id: Long): ResponseEntity<Subject?> {
-        return try{
-            val foundLack = subjectService.findSubjectById(id)
-            ResponseEntity(foundLack, HttpStatus.OK)
-        }
-        catch(err : LackNotFoundException){
-            return ResponseEntity(HttpStatus.NOT_FOUND)
-        }
+        val foundLack = subjectService.findSubjectById(id)
+        return ResponseEntity(foundLack, HttpStatus.OK)
     }
 
     @GetMapping("/name/{partial}")
     fun getSubjectsWithPartialName(@PathVariable("partial") partial : String) : ResponseEntity<List<Subject>> = ResponseEntity.ok(subjectService.findByPartialName(partial))
-
-
-
 }

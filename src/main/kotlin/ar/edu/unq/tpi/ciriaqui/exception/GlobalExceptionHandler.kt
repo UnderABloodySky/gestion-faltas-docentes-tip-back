@@ -9,12 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 @ControllerAdvice
 class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception::class)
-    fun handleException(ex: Exception): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse("Error interno del servidor", ex.message)
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
-    }
-
     @ExceptionHandler(BadNameException::class)
     fun handleBadNameException(ex: BadNameException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse("Error de creacion", ex.message)
@@ -35,6 +29,12 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException::class)
     fun handleEntityNotFoundException(ex: EntityNotFoundException): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
+    }
+
+    @ExceptionHandler(InstructNotFoundException::class)
+    fun handleInstructNotFoundException(ex: InstructNotFoundException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
     }
@@ -62,5 +62,11 @@ class GlobalExceptionHandler {
     fun handleTeacherNotFoundException(ex: TeacherNotFoundException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse("No se pudo encontrar la entidad buscada", ex.message)
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
+    }
+
+    @ExceptionHandler(Exception::class)
+    fun handleException(ex: Exception): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse("Error interno del servidor", ex.message)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
     }
 }
