@@ -77,7 +77,7 @@ class LackController(
     fun typesOfArticle() : ResponseEntity<Array<Article>> = ResponseEntity.ok(Article.values())
 
     @DeleteMapping("/id/{id}")
-    fun deleteLack(@PathVariable id : Long?) :ResponseEntity<HttpStatus>{
+    fun deleteLack(@PathVariable id : Long?) :ResponseEntity<Any>{
             this.lackService.deleteLackById(id)
             return ResponseEntity(HttpStatus.OK)
     }

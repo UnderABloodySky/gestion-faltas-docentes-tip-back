@@ -1,12 +1,15 @@
 package ar.edu.unq.tpi.ciriaqui.exception
 
 import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 class GlobalExceptionHandler {
 
     @ExceptionHandler(BadNameException::class)
@@ -68,6 +71,19 @@ class GlobalExceptionHandler {
     fun handleStudentNotFoundException(ex: StudentNotFoundException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse("No se pudo encontrar al estudiante buscado", ex.message)
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse)
+    }
+
+
+    @ExceptionHandler(TeacherMustInstructSubjectException::class)
+    fun handleTeacherMustInstructSubjectException(ex : TeacherMustInstructSubjectException) : ResponseEntity<ErrorResponse>{
+        val errorResponse = ErrorResponse("Argumento equivocado", ex.message)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
+    }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(ex : IllegalArgumentException) : ResponseEntity<ErrorResponse>{
+        val errorResponse = ErrorResponse("Argumento equivocado", ex.message)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)
     }
 
     @ExceptionHandler(Exception::class)
