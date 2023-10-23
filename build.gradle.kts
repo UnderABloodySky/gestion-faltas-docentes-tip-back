@@ -37,7 +37,8 @@ repositories {
 
 dependencies {
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
-	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("javax.xml.bind:jaxb-api:2.3.1")
+//	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
@@ -52,6 +53,13 @@ dependencies {
 	testImplementation(platform("org.junit:junit-bom:5.9.3"))
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
+
+configurations {
+	all {
+		resolutionStrategy.force("javax.xml.bind:jaxb-api:2.3.1")
+	}
+}
+
 
 tasks.jacocoTestReport {
 	reports {

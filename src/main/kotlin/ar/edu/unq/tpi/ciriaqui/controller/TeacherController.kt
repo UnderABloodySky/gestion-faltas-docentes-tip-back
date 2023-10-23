@@ -1,6 +1,5 @@
 package ar.edu.unq.tpi.ciriaqui.controller
 
-import ar.edu.unq.tpi.ciriaqui.data.DataInitializer
 import ar.edu.unq.tpi.ciriaqui.dto.LoginDTO
 import ar.edu.unq.tpi.ciriaqui.model.Teacher
 import ar.edu.unq.tpi.ciriaqui.service.TeacherService
@@ -37,10 +36,10 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
     fun getTeachersWithPartialName(@PathVariable("partial") partial : String) : ResponseEntity<List<Teacher>> = ResponseEntity.ok(teacherService.findByPartialName(partial))
 
     @PostMapping("/login")
-    fun login(@RequestBody credentials : LoginDTO): ResponseEntity<String> {
+    fun login(@RequestBody credentials : LoginDTO): ResponseEntity<Teacher> {
         val teacher = teacherService.login(credentials)
 
-        val idStr = teacher.id.toString()
+       /* val idStr = teacher.id.toString()
         val jwt = Jwts.builder()
             .setIssuer(idStr)
             .setExpiration(Date(System.currentTimeMillis() + 60 * 24 * 1000))
@@ -48,6 +47,8 @@ class TeacherController(@Autowired private val teacherService: TeacherService) {
 
         val logger: Logger = LoggerFactory.getLogger(TeacherController::class.java)
         logger.info("JWT ACA:$jwt" )
-        return ResponseEntity.ok(jwt)
+        */
+        return ResponseEntity.ok(teacher)
+
     }
 }

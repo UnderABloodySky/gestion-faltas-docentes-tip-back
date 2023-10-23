@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @ComponentScan("ar.edu.unq.tpi.ciriaqui", "ar.edu.unq.tpi.ciriaqui.data")
 @EntityScan(basePackages = ["ar.edu.unq.tpi.ciriaqui.model"])
 class CiriaquiApplication {
-
     @Bean
     fun cors(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
@@ -24,11 +22,6 @@ class CiriaquiApplication {
                     .allowedHeaders("*")
             }
         }
-    }
-
-    @Override
-    fun configure(http: HttpSecurity) {
-        http.csrf().disable()
     }
 }
 

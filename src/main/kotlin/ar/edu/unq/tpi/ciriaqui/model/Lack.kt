@@ -10,7 +10,7 @@ class Lack {
     val id: Long? = null
 
     @Enumerated(EnumType.STRING)
-    lateinit var article: Article
+    var article: Article
 
     var beginDate: LocalDate
     var endDate: LocalDate
