@@ -53,7 +53,7 @@ class TeacherServiceTest {
         Mockito.`when`(teacherRepositoryMock.findById(aTeacherID)).thenReturn(Optional.of(aTeacher))
 
         val foundTeacher = teacherService.findTeacherById(aTeacherID)
-        assertEquals("Pepito", foundTeacher!!.name)
+        assertEquals("Pepito", foundTeacher.name)
         assertEquals(aTeacher.id, foundTeacher.id)
         assertEquals(aTeacher.email, foundTeacher.email)
         assertEquals(aTeacher.password, foundTeacher.password)
@@ -80,7 +80,7 @@ class TeacherServiceTest {
 
         val foundTeacher = teacherServiceImpl.findTeacherById(aTeacher.id!!)
 
-        assertEquals(aTeacher.name, foundTeacher!!.name)
+        assertEquals(aTeacher.name, foundTeacher.name)
         assertEquals(aTeacher.id, foundTeacher.id)
         assertEquals(aTeacher.email, foundTeacher.email)
         assertEquals(aTeacher.password, foundTeacher.password)
@@ -104,7 +104,7 @@ class TeacherServiceTest {
 
         val foundTeacher = teacherServiceImpl.findTeacherByEmail(aTeacherEmail)
 
-        assertEquals(aTeacher.name, foundTeacher!!.name)
+        assertEquals(aTeacher.name, foundTeacher.name)
         assertEquals(aTeacher.id, foundTeacher.id)
         assertEquals(aTeacher.email, foundTeacher.email)
         assertEquals(aTeacher.password, foundTeacher.password)
@@ -121,7 +121,7 @@ class TeacherServiceTest {
 
         val foundTeacher = teacherServiceImpl.login(LoginDTO(aTeacherEmail, aTeacherPassword))
 
-        assertEquals(aTeacher.name, foundTeacher!!.name)
+        assertEquals(aTeacher.name, foundTeacher.name)
         assertEquals(aTeacher.password, foundTeacher.password)
         assertEquals(aTeacher.email, foundTeacher.email)
     }

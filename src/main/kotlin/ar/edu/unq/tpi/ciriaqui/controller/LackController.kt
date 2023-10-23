@@ -1,12 +1,7 @@
 package ar.edu.unq.tpi.ciriaqui.controller
 
 import ar.edu.unq.tpi.ciriaqui.dto.LackDTO
-import ar.edu.unq.tpi.ciriaqui.TeacherNotFoundException
 import ar.edu.unq.tpi.ciriaqui.dto.SearchDTO
-import ar.edu.unq.tpi.ciriaqui.exception.DuplicateLackInDateException
-import ar.edu.unq.tpi.ciriaqui.exception.IncorrectDateException
-import ar.edu.unq.tpi.ciriaqui.exception.LackNotFoundException
-import ar.edu.unq.tpi.ciriaqui.exception.SubjectFoundException
 import ar.edu.unq.tpi.ciriaqui.model.Article
 import ar.edu.unq.tpi.ciriaqui.model.Lack
 import ar.edu.unq.tpi.ciriaqui.service.InstructService
@@ -17,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.format.DateTimeParseException
-
 
 @RestController
 @RequestMapping("/lacks")
@@ -45,7 +38,7 @@ class LackController(
                 @RequestParam(value = "end-date", required = false) endDate: String? = null
     ): ResponseEntity<List<Lack?>> {
         val teacher = teacherService.findTeacherById(id)
-        return ResponseEntity.ok(lackService.lacksOf(SearchDTO(teacherId = teacher?.id, beginDate = beginDate, endDate = endDate)))
+        return ResponseEntity.ok(lackService.lacksOf(SearchDTO(teacherId = teacher.id, beginDate = beginDate, endDate = endDate)))
     }
 
     @GetMapping("/id-subject/{id}")
@@ -60,7 +53,7 @@ class LackController(
             val lacks = lackService.lacksOf(SearchDTO(teacherId = teacher, beginDate = beginDate, endDate = endDate))
             lacks
         }
-        return ResponseEntity.ok(finalLacks as List<Lack>)
+        return ResponseEntity.ok(finalLacks.toList() as List<Lack>)
     }
 
     @GetMapping("/name/{partial}")

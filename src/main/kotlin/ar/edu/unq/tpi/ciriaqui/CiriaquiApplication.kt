@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @ComponentScan("ar.edu.unq.tpi.ciriaqui", "ar.edu.unq.tpi.ciriaqui.data")
 @EntityScan(basePackages = ["ar.edu.unq.tpi.ciriaqui.model"])
 class CiriaquiApplication {
-
     @Bean
     fun cors(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
@@ -24,8 +23,6 @@ class CiriaquiApplication {
             }
         }
     }
-
-
 }
 
 fun main(args: Array<String>) {
