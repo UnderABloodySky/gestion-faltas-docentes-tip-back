@@ -1,8 +1,6 @@
 package ar.edu.unq.tpi.ciriaqui.service
 
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
-import io.jsonwebtoken.SignatureException
+import io.jsonwebtoken.*
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -36,6 +34,12 @@ class JWTService {
                 .body
             true
         } catch (e: SignatureException) {
+            false
+        } catch (e: ExpiredJwtException) {
+            false
+        } catch (e: MalformedJwtException) {
+            false
+        } catch (e: Exception) {
             false
         }
     }
